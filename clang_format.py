@@ -1,22 +1,48 @@
 import sublime, sublime_plugin
 import subprocess
-from os.path import isfile
 
 # Default settings.
 styles        = ["LLVM", "Google", "Chromium", "Mozilla", "WebKit", "File"]
 settings_file = 'clang_format.sublime-settings'
 
+# This function taken from Stack Overflow response:
+# http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
+def which(program):
+    import os
+    def is_exe(fpath):
+        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+    fpath, fname = os.path.split(program)
+    if fpath:
+        if is_exe(program):
+            return program
+    else:
+        for path in os.environ["PATH"].split(os.pathsep):
+            path = path.strip('"')
+            exe_file = os.path.join(path, program)
+            if is_exe(exe_file):
+                return exe_file        
+    return None
+
+
 def set_path(path):
     settings = sublime.load_settings(settings_file)
     settings.set('binary', path)
-    print("Done")
+    # Make sure the globals are set.
+    load_settings()
+
 
 def update_path():
     w = sublime.active_window()
     w.show_input_panel("Path to clang-format: ", binary, set_path, None, None)
 
 def check_binary():
-    if (not isfile(binary)):
+    if (which(binary) == None):
+
+        # Try to guess the correct setting.
+        if (which("clang-format") != None):
+            # Looks like clang-format is in the path, remember that.
+            set_path('clang-format')
+
         msg = "The clang-format binary was not found. Set a new path?"
         if sublime.ok_cancel_dialog(msg):
             update_path()
@@ -24,7 +50,6 @@ def check_binary():
     return True
 
 def load_settings():
-    print("load settings")
     # We set these globals.
     global binary
     global style
@@ -38,7 +63,7 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         load_settings()
 
-        # Check that we found the binary.
+        # Check that the binary exists.
         if not check_binary():
             return
         
@@ -88,7 +113,6 @@ class clangFormatSetPathCommand(sublime_plugin.WindowCommand):
 class clangFormatSelectStyleCommand(sublime_plugin.WindowCommand):
     def done(self, i):
         settings = sublime.load_settings(settings_file)
-        print (styles[i])
         settings.set("style", styles[i])
 
     def run(self):
