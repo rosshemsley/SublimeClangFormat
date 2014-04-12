@@ -30,8 +30,9 @@ Installing
 - Get the clang-format binary. If you don't already have it, you can download
   binaries from llvm: http://llvm.org/releases/download.html.
 - Set the path to the clang-format binaries. You can do this from within Sublime
-  Text by choosing `Clang Format - Set Path` from the command palette.  Hint: it
-  will probably look something like this `[path/to/clang]/clang/bin/clang-format`.
+  Text by choosing `Clang Format - Set Path` from the command palette.  Hint: 
+  the path should look something like this `[path/to/clang]/clang/bin/clang-format`.
+  If clang-format is in your path, you shouldn't need to do anything.
 
 Use
 ---
