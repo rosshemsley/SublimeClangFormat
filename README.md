@@ -6,7 +6,7 @@ What it does
 Clang-format is a tool for re-formatting C++, built on llvm. This is a
 package that allows you to run it easily from within Sublime Text.
 
-![demo](http://rosshemsley.co.uk/demos/clang_format.gif)
+![demo](https://raw.githubusercontent.com/rosshemsley/demos/master/clang_format.gif)
 
 About
 -----
