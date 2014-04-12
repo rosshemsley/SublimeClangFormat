@@ -68,14 +68,20 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
             return
         
         # Status message.
-        sublime.status_message("Clang format (style: '"+ style + "'')." )
+        sublime.status_message("Clang format (style: "+ style + ")." )
 
         # The below code has been taken and tweaked from llvm.
         encoding = self.view.encoding()
         if encoding == 'Undefined':
             encoding = 'utf-8'
         regions = []
-        command = [binary, '-style', style]
+
+        # We use 'file' not 'File' when passing to the binary.
+        _style = style
+        if style == "File":
+            _style = "file"
+
+        command = [binary, '-style', _style]
 
         for region in self.view.sel():
             regions.append(region)
