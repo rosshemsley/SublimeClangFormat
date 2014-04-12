@@ -8,13 +8,15 @@ more easily from within Sublime Text.
 
 About
 -----
-In this package, we provide an alternative wrapper around clang-format. The llvm
-team already did a great job of writing a Sublime Text plugin for clang-format,
-but it's not that easy to install through the usual channels, and it doesn't
-provide options to update the settings from within Sublime Text. This package is
-intended to help more people find out about clang-format, and make it easier to
-use; though we underline that all the hard work has already been done by the
-llvm team. This plugin just wraps their code and makes it easier to use.
+In this package, we provide an alternative wrapper around clang-format.
+(https://llvm.org/svn/llvm-project/cfe/trunk/tools/clang-format/clang-format-sublime.py). 
+The llvm team already did a great job of writing a Sublime Text
+plugin for clang-format, but it's not that easy to install through the usual
+channels, and it doesn't provide options to update the settings from within
+Sublime Text. This package is intended to help more people find out about clang-
+format, and make it easier to use; though we underline that all the hard work
+has already been done by the llvm team. This plugin just wraps their code and
+makes it easier to use.
 
 Why Wrap the Old Wrapper?
 ----------------------------
