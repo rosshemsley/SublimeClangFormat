@@ -6,10 +6,6 @@ from os.path import isfile
 styles        = ["LLVM", "Google", "Chromium", "Mozilla", "WebKit", "File"]
 settings_file = 'clang_format.sublime-settings'
 
-
-def clangFormatSetPath():
-    pass
-
 def set_path(path):
     settings = sublime.load_settings(settings_file)
     settings.set('binary', path)
@@ -70,8 +66,11 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         output, error = p.communicate(buf.encode(encoding))
+        
+        # Display error to use instead of to console.
         if error:
-            print(error)
+            sublime.error_message("Note: " + error.decode("utf-8"))
+
         self.view.replace(
             edit, sublime.Region(0, self.view.size()),
             output.decode(encoding))
