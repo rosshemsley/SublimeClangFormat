@@ -8,7 +8,8 @@ more easily from within Sublime Text.
 
 About
 -----
-In this package, we provide an alternative wrapper around clang-format.
+In this package, we provide an alternative wrapper around clang-format
+for use within Sublime Text 3.
 (https://llvm.org/svn/llvm-project/cfe/trunk/tools/clang-format/clang-format-sublime.py). 
 The llvm team already did a great job of writing a Sublime Text
 plugin for clang-format, but it's not that easy to install through the usual
