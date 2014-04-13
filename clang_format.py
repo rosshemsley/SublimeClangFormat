@@ -2,8 +2,36 @@ import sublime, sublime_plugin
 import subprocess
 
 # Default settings.
-styles        = ["LLVM", "Google", "Chromium", "Mozilla", "WebKit", "File"]
-settings_file = 'clang_format.sublime-settings'
+styles  = ["LLVM", "Google", "Chromium", "Mozilla", "WebKit", "Custom", "File"]
+settings_file         = 'clang_format.sublime-settings'
+custom_style_settings = 'clang_format_custom.sublime-settings'
+
+# Hacky, but there doesn't seem to be a cleaner way to do this for now.
+# We need to be able to load all these settings from the settings file.
+all_settings  = [ 
+    "BasedOnStyle", "AccessModifierOffset", "AlignEscapedNewlinesLeft",
+    "AlignTrailingComments", "AllowAllParametersOfDeclarationOnNextLine",
+    "AllowShortFunctionsOnASingleLine", "AllowShortIfStatementsOnASingleLine",
+    "AllowShortLoopsOnASingleLine", "AlwaysBreakBeforeMultilineStrings",
+    "AlwaysBreakTemplateDeclarations", "BinPackParameters",
+    "BreakBeforeBinaryOperators", "BreakBeforeBraces",
+    "BreakBeforeTernaryOperators", "BreakConstructorInitializersBeforeComma",
+    "ColumnLimit", "CommentPragmas",
+    "ConstructorInitializerAllOnOneLineOrOnePerLine",
+    "ConstructorInitializerIndentWidth", "ContinuationIndentWidth",
+    "Cpp11BracedListStyle", "DerivePointerBinding",
+    "ExperimentalAutoDetectBinPacking", "IndentCaseLabels",
+    "IndentFunctionDeclarationAfterType", "IndentWidth",
+    "KeepEmptyLinesAtTheStartOfBlocks", "Language", "MaxEmptyLinesToKeep",
+    "NamespaceIndentation", "ObjCSpaceAfterProperty",
+    "ObjCSpaceBeforeProtocolList", "PenaltyBreakBeforeFirstCallParameter",
+    "PenaltyBreakComment", "PenaltyBreakFirstLessLess", "PenaltyBreakString",
+    "PenaltyExcessCharacter", "PenaltyReturnTypeOnItsOwnLine",
+    "PointerBindsToType", "SpaceBeforeAssignmentOperators", "SpaceBeforeParens",
+    "SpaceInEmptyParentheses", "SpacesBeforeTrailingComments", "SpacesInAngles",
+    "SpacesInCStyleCastParentheses", "SpacesInContainerLiterals",
+    "SpacesInParentheses", "Standard", "TabWidth", "UseTab"
+]
 
 # This function taken from Stack Overflow response:
 # http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
@@ -30,6 +58,36 @@ def set_path(path):
     # Make sure the globals are set.
     load_settings()
 
+
+# Avoid dependencies on yaml.
+def dic_to_yamp_simple(d):
+    output = ""
+    n=len(d)
+    for k in d:
+        output += str(k)
+        output += ": "
+        if type(d[k]) is bool:
+            output += str(d[k]).lower()
+        else:
+            output += str(d[k])
+        n-=1
+        if (n!=0):
+            output += ', '
+    return output
+
+# We store a set of customised values in a sublime settings file, so that it is
+# possible to very quickly customise the output.
+def load_custom():
+    custom_settings = sublime.load_settings(custom_style_settings)
+    keys = dict()
+
+    for v in all_settings:
+        result = custom_settings.get(v, None)
+        if result != None:
+            keys[v] = result
+    out = "-style={" + dic_to_yamp_simple(keys) + "}"
+
+    return out
 
 def update_path():
     w = sublime.active_window()
@@ -63,6 +121,9 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         load_settings()
 
+
+
+
         # Check that the binary exists.
         if not check_binary():
             return
@@ -81,7 +142,12 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         if style == "File":
             _style = "file"
 
-        command = [binary, '-style', _style]
+        command = []
+
+        if style == "Custom":
+            command = [binary, load_custom()]
+        else:
+            command = [binary, '-style', _style]
 
         for region in self.view.sel():
             regions.append(region)
@@ -100,7 +166,8 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         
         # Display error to use instead of to console.
         if error:
-            sublime.error_message("Note: " + error.decode("utf-8"))
+            sublime.error_message("Clang format: " + error.decode("utf-8"))
+            return
 
         self.view.replace(
             edit, sublime.Region(0, self.view.size()),

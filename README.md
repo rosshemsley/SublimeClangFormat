@@ -11,26 +11,19 @@ package that allows you to run it easily from within Sublime Text.
 About
 -----
 In this package, we provide an alternative wrapper around clang-format
-for use within Sublime Text 3. (llvm provides a very simple wrapper
+for use within Sublime Text 3. Whilst llvm does provide a very simple plugin
 to work with Sublime Text already:
-https://llvm.org/svn/llvm-project/cfe/trunk/tools/clang-format/clang-format-sublime.py).
-
-Why Wrap the Old Wrapper?
-----------------------------
-The simple llvm plugin works fine, but in this package we add the following new
-features:
-
-- You can install this package form Package Control.
-- You can set the path to clang-format from within Sublime Text.
-- You can choose the style from within Sublime Text.
-- This version checks the current syntax is actually C/C++ before running
-  the formatter.
+https://llvm.org/svn/llvm-project/cfe/trunk/tools/clang-format/clang-format-sublime.py,
+it doesn't really exploit any of the Sublime Text package functionality. 
+We add new features such as customising the style from a settings file,
+selecting styles using the Command Palette, along with easier installation.
 
 Installing
 ----------
 - Install this package through Package Control in the usual way.
 - Get the clang-format binary. If you don't already have it, you can download
   binaries from llvm: http://llvm.org/releases/download.html.
+  Note this will give you the whole llvm toolchain.
 - Set the path to the clang-format binaries. You can do this from within Sublime
   Text by choosing `Clang Format - Set Path` from the command palette.  Hint: 
   the path should look something like this `[path/to/clang]/clang/bin/clang-format`.
@@ -41,7 +34,12 @@ Use
 - Default shortcut is `super+option+a` on OSX and `ctrl+option+a` otherwise.
   This will apply clang-format to the selection.
 - From the command palette, you can select the formatting type by using
-  `Clang Format: Select Style`.
+  `Clang Format: Select Style`. You will find the small number of defaults,
+  and also a new 'Custom' entry. Selecting this entry allows you to customise
+  the style through a settings file. You can access it from the main menu,
+  under `Package Settings`. In this file you can add custom rules, such 
+  as `Allmen` style braces, and different indents. For examples see
+  http://clang.llvm.org/docs/ClangFormatStyleOptions.html.
 
 Credits
 -------

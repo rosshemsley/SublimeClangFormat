@@ -12,7 +12,22 @@
                     {
                         "caption": "Clang Format",
                         "children":
-                        [                         
+                        [         
+                            {
+                                "caption": "Custom Style – Default",
+                                "command": "open_file", "args":
+                                {
+                                    "file": "${packages}/SublimeClangFormat/clang_format_custom.sublime-settings"
+                                }
+                            },
+                            {
+                                "caption": "Cystom Style – User",
+                                "command": "open_file", "args":
+                                {
+                                    "file": "${packages}/User/clang_format_custom.sublime-settings"
+                                }
+                            },
+                            { "caption": "-" },                
                             // Default Key mappings
                             {
                                 "command": "open_file",
