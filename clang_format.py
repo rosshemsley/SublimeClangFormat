@@ -164,9 +164,16 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
                              stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         output, error = p.communicate(buf.encode(encoding))
         
-        # Display error to use instead of to console.
+        # Display any errors returned by clang-format.
         if error:
-            sublime.error_message("Clang format: " + error.decode("utf-8"))
+            # We don't want to do anything by default.
+            # If the error message tells us it is doing that, truncate it.
+            default_message = ", using LLVM style"
+            msg = error.decode("utf-8")          
+            if msg.strip().endswith(default_message):
+                msg = msg[:-len(default_message)-1]
+            sublime.error_message("Clang format: " + msg)
+            # Don't do anything.
             return
 
         self.view.replace(
