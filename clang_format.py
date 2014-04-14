@@ -60,7 +60,7 @@ def set_path(path):
 
 
 # Avoid dependencies on yaml.
-def dic_to_yamp_simple(d):
+def dic_to_yaml_simple(d):
     output = ""
     n=len(d)
     for k in d:
@@ -85,7 +85,7 @@ def load_custom():
         result = custom_settings.get(v, None)
         if result != None:
             keys[v] = result
-    out = "-style={" + dic_to_yamp_simple(keys) + "}"
+    out = "-style={" + dic_to_yaml_simple(keys) + "}"
 
     return out
 
@@ -149,15 +149,30 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         else:
             command = [binary, '-style', _style]
 
+        max_r=0;
+
         for region in self.view.sel():
             regions.append(region)
-            region_offset = min(region.a, region.b)
-            region_length = abs(region.b - region.a)
+            region_offset = region.begin()# min(region.a, region.b)
+            region_length = region.size() # abs(region.b - region.a)
+
+            view = sublime.active_window().active_view()
+
+            # If you run the command at the end of the line, we assume
+            # You wanted to run it from the beginning instead.
+            # if view.classify(region_offset) & sublime.CLASS_LINE_END >0:
+            region = view.line(region_offset)
+            region_offset = region.begin()
+            region_lenth = region.size()
+
             command.extend(['-offset', str(region_offset),
                             '-length', str(region_length),
                             '-assume-filename', str(self.view.file_name())])
+
+            # command.extend(['-output-replacements-xml'])
         old_viewport_position = self.view.viewport_position()
 
+        # pirnt(old_viewport_position)
 
         buf = self.view.substr(sublime.Region(0, self.view.size()))
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
@@ -179,12 +194,15 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         self.view.replace(
             edit, sublime.Region(0, self.view.size()),
             output.decode(encoding))
-        self.view.sel().clear()
-        for region in regions:
-            self.view.sel().add(region)
+
+        # self.view.sel().clear()
+        # self.view.sel().add(sublime.Region(max_r,max_r))
+        # for region in regions:
+            # self.view.sel().add(region)
+
         # FIXME: Without the 10ms delay, the viewport sometimes jumps.
-        sublime.set_timeout(lambda: self.view.set_viewport_position(
-            old_viewport_position, False), 10)
+        # sublime.set_timeout(lambda: self.view.set_viewport_position(
+            # old_viewport_position, False), 10)
 
 class clangFormatSetPathCommand(sublime_plugin.WindowCommand):
     def run(self):
