@@ -90,6 +90,7 @@ def load_custom():
     return out
 
 def update_path():
+    load_settings()
     w = sublime.active_window()
     w.show_input_panel("Path to clang-format: ", binary, set_path, None, None)
 
