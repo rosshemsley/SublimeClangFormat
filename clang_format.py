@@ -165,15 +165,14 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
             region = view.line(region_offset)
             region_offset = region.begin()
             region_lenth = region.size()
-
+            print(region_offset)
+            print(region_length)
             command.extend(['-offset', str(region_offset),
-                            '-length', str(region_length),
-                            '-assume-filename', str(self.view.file_name())])
+                            '-length', str(region_length)])
 
-            # command.extend(['-output-replacements-xml'])
+        command.extend(['-assume-filename', str(self.view.file_name())] )
+        # command.extend(['-output-replacements-xml'])
         old_viewport_position = self.view.viewport_position()
-
-        # pirnt(old_viewport_position)
 
         buf = self.view.substr(sublime.Region(0, self.view.size()))
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
