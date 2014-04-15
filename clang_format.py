@@ -1,8 +1,11 @@
 import sublime, sublime_plugin
 import subprocess
 
-# Default settings.
+# The styles available by default. We add one option: "Custom". This tells
+# the plugin to look in an ST settings file to load the customised style.
 styles  = ["LLVM", "Google", "Chromium", "Mozilla", "WebKit", "Custom", "File"]
+
+# Settings file locations.
 settings_file         = 'clang_format.sublime-settings'
 custom_style_settings = 'clang_format_custom.sublime-settings'
 
@@ -52,17 +55,19 @@ def which(program):
     return None
 
 
+# Set the path to the binary in the settings file.
 def set_path(path):
     settings = sublime.load_settings(settings_file)
     settings.set('binary', path)
-    # Make sure the globals are set.
+    # Make sure the globals are updated.
+
     load_settings()
 
 
-# Avoid dependencies on yaml.
+# We avoid dependencies on yaml, since the output we need is very simple.
 def dic_to_yaml_simple(d):
     output = ""
-    n=len(d)
+    n      = len(d)
     for k in d:
         output += str(k)
         output += ": "
@@ -70,17 +75,17 @@ def dic_to_yaml_simple(d):
             output += str(d[k]).lower()
         else:
             output += str(d[k])
-        n-=1
+        n -= 1
         if (n!=0):
             output += ', '
     return output
 
 # We store a set of customised values in a sublime settings file, so that it is
 # possible to very quickly customise the output.
+# This function returns the correct customised style tag.
 def load_custom():
     custom_settings = sublime.load_settings(custom_style_settings)
     keys = dict()
-
     for v in all_settings:
         result = custom_settings.get(v, None)
         if result != None:
@@ -89,41 +94,43 @@ def load_custom():
 
     return out
 
+# Display input panel to update the path.
 def update_path():
     load_settings()
     w = sublime.active_window()
     w.show_input_panel("Path to clang-format: ", binary, set_path, None, None)
 
+# Check that the binary can be found and is executable.
 def check_binary():
+    # If we couldn't find the binary.
     if (which(binary) == None):
-
         # Try to guess the correct setting.
         if (which("clang-format") != None):
             # Looks like clang-format is in the path, remember that.
             set_path('clang-format')
-
+        # We suggest setting a new path using an input panel.
         msg = "The clang-format binary was not found. Set a new path?"
         if sublime.ok_cancel_dialog(msg):
             update_path()
         return False
     return True
 
+# Load settings and put their values into global scope.
+# Probably a nicer way of doing this, but it's simple enough and it works fine.
 def load_settings():
     # We set these globals.
     global binary
-    global style
+    global style    
     settings = sublime.load_settings(settings_file)
-
     # Load settings, with defaults.
     binary   = settings.get('binary', 'clang-format')
     style    = settings.get('style',   styles[0]    )
 
+# Triggered when the user runs clang format.
 class ClangFormatCommand(sublime_plugin.TextCommand):
     def run(self, edit):
+        # Update the settings.
         load_settings()
-
-
-
 
         # Check that the binary exists.
         if not check_binary():
@@ -131,18 +138,22 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         
         # Status message.
         sublime.status_message("Clang format (style: "+ style + ")." )
-
+        
+        #----------------------------------------------------------------------#
         # The below code has been taken and tweaked from llvm.
+        #----------------------------------------------------------------------#
+
         encoding = self.view.encoding()
         if encoding == 'Undefined':
             encoding = 'utf-8'
-        regions = []
 
         # We use 'file' not 'File' when passing to the binary.
+        # But all the other styles are in all caps.
         _style = style
         if style == "File":
             _style = "file"
 
+        # This is the command we will run, we build it incrementally.
         command = []
 
         if style == "Custom":
@@ -150,36 +161,39 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         else:
             command = [binary, '-style', _style]
 
-        max_r=0;
-
+        # Deal with all selected regions.
         for region in self.view.sel():
-            regions.append(region)
             region_offset = region.begin()# min(region.a, region.b)
             region_length = region.size() # abs(region.b - region.a)
 
             view = sublime.active_window().active_view()
 
-            # If you run the command at the end of the line, we assume
-            # You wanted to run it from the beginning instead.
-            # if view.classify(region_offset) & sublime.CLASS_LINE_END >0:
-            region = view.line(region_offset)
-            region_offset = region.begin()
-            region_lenth = region.size()
-            print(region_offset)
-            print(region_length)
+            # If the command is run at the end of the line,
+            # Run the command on the whole line.
+            if view.classify(region_offset) & sublime.CLASS_LINE_END > 0:
+                region        = view.line(region_offset)
+                region_offset = region.begin()
+                region_lenth  = region.size()
+
+            # Add this region to the set of offsets.
             command.extend(['-offset', str(region_offset),
                             '-length', str(region_length)])
 
+        # We only set the offset once, otherwise CF complains.
         command.extend(['-assume-filename', str(self.view.file_name())] )
+        
+        # TODO: Work out what this does.
         # command.extend(['-output-replacements-xml'])
-        old_viewport_position = self.view.viewport_position()
 
+        # Run CF, and set buf to its output.
         buf = self.view.substr(sublime.Region(0, self.view.size()))
-        p = subprocess.Popen(command, stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        p   = subprocess.Popen(command, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         output, error = p.communicate(buf.encode(encoding))
         
-        # Display any errors returned by clang-format.
+        # Display any errors returned by clang-format using a message box,
+        # instead of just printing them to the console. Also, we halt on all
+        # errors: e.g. We don't just settle for using using a default style.
         if error:
             # We don't want to do anything by default.
             # If the error message tells us it is doing that, truncate it.
@@ -191,23 +205,24 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
             # Don't do anything.
             return
 
+        # If there were no errors, we replace the view with the outputted buf.
         self.view.replace(
             edit, sublime.Region(0, self.view.size()),
             output.decode(encoding))
 
-        # self.view.sel().clear()
-        # self.view.sel().add(sublime.Region(max_r,max_r))
-        # for region in regions:
-            # self.view.sel().add(region)
+        # TODO: better semantics for re-positioning cursors!
 
+        # TODO: decide if this is really needed. It seems not?
         # FIXME: Without the 10ms delay, the viewport sometimes jumps.
         # sublime.set_timeout(lambda: self.view.set_viewport_position(
             # old_viewport_position, False), 10)
 
+# Called from the UI to update the path in the settings.
 class clangFormatSetPathCommand(sublime_plugin.WindowCommand):
     def run(self):
         update_path()
 
+# Called from the UI to set the current style.
 class clangFormatSelectStyleCommand(sublime_plugin.WindowCommand):
     def done(self, i):
         settings = sublime.load_settings(settings_file)
@@ -216,11 +231,9 @@ class clangFormatSelectStyleCommand(sublime_plugin.WindowCommand):
     def run(self):
         load_settings()
         active_window = sublime.active_window()
-
         # Get current style
         try:
             sel = styles.index(style)
         except ValueError:
             sel = 0
-
         active_window.show_quick_panel(styles, self.done, 0, sel)

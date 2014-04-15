@@ -47,7 +47,7 @@ Thanks to the llvm project for doing the hard work, including writing clang
 format, and also the original Sublime Text plugin on which this package is
 based.
 
-Why not go and watch the video that got me interested in clang-format in the 
-first place:
+Also, why not go and watch the video that got me interested in clang-format in
+the first place?
 
 http://channel9.msdn.com/Events/GoingNative/2013/The-Care-and-Feeding-of-C-s-Dragons
