@@ -16,7 +16,7 @@ to work with Sublime Text already:
 https://llvm.org/svn/llvm-project/cfe/trunk/tools/clang-format/clang-format-sublime.py,
 it doesn't really exploit any of the Sublime Text package functionality. 
 We add new features such as customising the style from a settings file,
-selecting styles using the Command Palette, along with easier installation.
+selecting styles using the Command Palette, and easier installation.
 
 Installing
 ----------
