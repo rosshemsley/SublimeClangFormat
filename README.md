@@ -23,11 +23,13 @@ Installing
 - Install this package through Package Control in the usual way.
 - Get the clang-format binary. If you don't already have it, you can download
   binaries from llvm: http://llvm.org/releases/download.html.
-  Note this will give you the whole llvm toolchain.
+  This will give you the whole llvm toolchain... however, for the philistines
+  among you: yes, it appears you can just copy the binary for clang-format
+  out of the bin directory and trash the rest and it will still work.
 - Set the path to the clang-format binaries. You can do this from within Sublime
   Text by choosing `Clang Format - Set Path` from the command palette.  Hint: 
   the path should look something like this `[path/to/clang]/clang/bin/clang-format`.
-  If clang-format is in your path, you shouldn't need to do anything.
+  If clang-format is in your system path, you shouldn't need to do anything.
 
 Use
 ---
