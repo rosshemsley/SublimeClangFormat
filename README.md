@@ -43,6 +43,12 @@ Use
   as `Allmen` style braces, and different indents. For examples see
   http://clang.llvm.org/docs/ClangFormatStyleOptions.html.
 
+If You Liked This
+-----------------
+If you like this plugin, maybe you'll like my other plugin, iOpener. It makes
+opening files significantly easier and will feel completely natural if you're
+used to using a shell. Otherwise, why not pop over and star this repo on GitHub?
+
 Credits
 -------
 Thanks to the llvm project for doing the hard work, including writing clang
