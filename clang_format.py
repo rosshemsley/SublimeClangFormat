@@ -126,8 +126,6 @@ def load_settings():
     binary   = settings.get('binary', 'clang-format')
     style    = settings.get('style',   styles[0]    )
 
-    print(style)
-
 # Triggered when the user runs clang format.
 class ClangFormatCommand(sublime_plugin.TextCommand):
     def run(self, edit):
