@@ -59,8 +59,8 @@ def which(program):
 def set_path(path):
     settings = sublime.load_settings(settings_file)
     settings.set('binary', path)
+    sublime.save_settings(settings_file)
     # Make sure the globals are updated.
-
     load_settings()
 
 
@@ -126,11 +126,14 @@ def load_settings():
     binary   = settings.get('binary', 'clang-format')
     style    = settings.get('style',   styles[0]    )
 
+    print(style)
+
 # Triggered when the user runs clang format.
 class ClangFormatCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         # Update the settings.
         load_settings()
+
 
         # Check that the binary exists.
         if not check_binary():
@@ -227,6 +230,7 @@ class clangFormatSelectStyleCommand(sublime_plugin.WindowCommand):
     def done(self, i):
         settings = sublime.load_settings(settings_file)
         settings.set("style", styles[i])
+        sublime.save_settings(settings_file)
 
     def run(self):
         load_settings()
