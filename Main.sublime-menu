@@ -27,6 +27,20 @@
                                     "file": "${packages}/User/clang_format_custom.sublime-settings"
                                 }
                             },
+                            {
+                                "caption": "Settings – Default",
+                                "command": "open_file", "args":
+                                {
+                                    "file": "${packages}/SublimeClangFormat/clang_format.sublime-settings"
+                                }
+                            },
+                            {
+                                "caption": "Settings – User",
+                                "command": "open_file", "args":
+                                {
+                                    "file": "${packages}/User/clang_format.sublime-settings"
+                                }
+                            },
                             { "caption": "-" },                
                             // Default Key mappings
                             {

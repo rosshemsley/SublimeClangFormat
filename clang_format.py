@@ -120,18 +120,20 @@ def check_binary():
 def load_settings():
     # We set these globals.
     global binary
-    global style    
+    global style
+    global format_on_save
     settings = sublime.load_settings(settings_file)
     # Load settings, with defaults.
-    binary   = settings.get('binary', 'clang-format')
-    style    = settings.get('style',   styles[0]    )
+    binary        = settings.get('binary', 'clang-format')
+    style         = settings.get('style',   styles[0]    )
+    format_on_save = settings.get('format_on_save', False  )
 
 # Triggered when the user runs clang format.
 class ClangFormatCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
+    def run(self, edit, whole_buffer=False):
+
         # Update the settings.
         load_settings()
-
 
         # Check that the binary exists.
         if not check_binary():
@@ -162,10 +164,16 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         else:
             command = [binary, '-style', _style]
 
+        regions = []
+        if whole_buffer:
+            regions = [sublime.Region(0, self.view.size())]            
+        else:
+            regions = self.view.sel()
+
         # Deal with all selected regions.
-        for region in self.view.sel():
-            region_offset = region.begin()# min(region.a, region.b)
-            region_length = region.size() # abs(region.b - region.a)
+        for region in regions:
+            region_offset = region.begin()
+            region_length = region.size()
 
             view = sublime.active_window().active_view()
 
@@ -217,6 +225,20 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         # FIXME: Without the 10ms delay, the viewport sometimes jumps.
         # sublime.set_timeout(lambda: self.view.set_viewport_position(
             # old_viewport_position, False), 10)
+
+# Hook for on-save event, to allow application of clang-format on save.
+class clangFormatEventListener(sublime_plugin.EventListener):
+    def on_pre_save(self, view):
+
+        # Only do this for C or C++. TODO: we should consider adding support
+        # For Objective-C at some point.
+        syntax = view.settings().get('syntax')
+        if syntax.endswith('C.tmLanguage') or syntax.endswith('C++.tmLanguage'):            
+            # Ensure that settings are up to date.
+            load_settings()
+            if format_on_save:
+                print("Auto-applying Clang Format on save.")
+                view.run_command("clang_format", {"whole_buffer": True}) 
 
 # Called from the UI to update the path in the settings.
 class clangFormatSetPathCommand(sublime_plugin.WindowCommand):

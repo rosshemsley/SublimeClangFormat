@@ -1,0 +1,25 @@
+{
+    // This is the path to the binary for clang-format. If it is in your path,
+    // it should just work out-of-the-box. Otherwise, you can set the full path,
+    // which will look like this: 
+    //    "binary": "/path/to/clang/bin/clang-format"
+    // Note that you can set this from within ST directly through the Command
+    // Palette. 
+
+    "binary": "clang-format",
+
+    // We use the Google style by default. This can be selected from ST using
+    // the Command Palette. Choosing 'Custom' means that the settings will
+    // be loaded from the Sublime Text settings file (which is accessed
+    // from within ST through preferences. Choosing 'File' will look in the 
+    // local directories from a clang-format settings file. See the clang-format
+    // documentation to see how this works. 
+
+    "style": "Google",
+
+    // Setting this to true will run the formatter on every save. If you want to
+    // only enable this for a given project, try checking out the package
+    // "Project-Specific".
+    
+    "format_on_save": false
+}

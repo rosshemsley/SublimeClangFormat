@@ -42,6 +42,10 @@ Use
   under `Package Settings`. In this file you can add custom rules, such 
   as `Allmen` style braces, and different indents. For examples see
   http://clang.llvm.org/docs/ClangFormatStyleOptions.html.
+- Settings for the 'Custom' format and others are available through the Sublime
+  Text preferences. Note that it is possible to enable the formatter on every
+  save to a C/C++ file. To change settings on a per-package basis, check out the
+  package "Project-Specific".
 
 If You Liked This
 -----------------
