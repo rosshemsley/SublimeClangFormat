@@ -17,7 +17,7 @@
                                 "caption": "Custom Style – Default",
                                 "command": "open_file", "args":
                                 {
-                                    "file": "${packages}/SublimeClangFormat/clang_format_custom.sublime-settings"
+                                    "file": "${packages}/Clang Format/clang_format_custom.sublime-settings"
                                 }
                             },
                             {
@@ -27,11 +27,12 @@
                                     "file": "${packages}/User/clang_format_custom.sublime-settings"
                                 }
                             },
+                            { "caption": "-" },
                             {
                                 "caption": "Settings – Default",
                                 "command": "open_file", "args":
                                 {
-                                    "file": "${packages}/SublimeClangFormat/clang_format.sublime-settings"
+                                    "file": "${packages}/Clang Format/clang_format.sublime-settings"
                                 }
                             },
                             {
@@ -47,7 +48,7 @@
                                 "command": "open_file",
                                 "id": "bindings",
                                 "args": {
-                                    "file": "${packages}/SublimeClangFormat/Default (Windows).sublime-keymap",
+                                    "file": "${packages}/Clang Format/Default (Windows).sublime-keymap",
                                     "platform": "Windows"
                                 },
                                 "caption": "Key Bindings – Default"
@@ -55,7 +56,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/SublimeClangFormat/Default (OSX).sublime-keymap",
+                                    "file": "${packages}/Clang Format/Default (OSX).sublime-keymap",
                                     "platform": "OSX"
                                 },
                                 "caption": "Key Bindings – Default"
@@ -63,7 +64,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/SublimeClangFormat/Default (Linux).sublime-keymap",
+                                    "file": "${packages}/Clang Format/Default (Linux).sublime-keymap",
                                     "platform": "Linux"
                                 },
                                 "caption": "Key Bindings – Default"
