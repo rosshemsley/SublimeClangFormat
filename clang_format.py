@@ -11,7 +11,7 @@ custom_style_settings = 'clang_format_custom.sublime-settings'
 
 # Hacky, but there doesn't seem to be a cleaner way to do this for now.
 # We need to be able to load all these settings from the settings file.
-all_settings  = [ 
+all_settings  = [
     "BasedOnStyle", "AccessModifierOffset", "AlignEscapedNewlinesLeft",
     "AlignTrailingComments", "AllowAllParametersOfDeclarationOnNextLine",
     "AllowShortFunctionsOnASingleLine", "AllowShortIfStatementsOnASingleLine",
@@ -51,7 +51,7 @@ def which(program):
             path = path.strip('"')
             exe_file = os.path.join(path, program)
             if is_exe(exe_file):
-                return exe_file        
+                return exe_file
     return None
 
 
@@ -128,6 +128,11 @@ def load_settings():
     style         = settings.get('style',   styles[0]    )
     format_on_save = settings.get('format_on_save', False  )
 
+def is_supported(lang):
+    # TODO: Add Objective-C and Objective-C++ here.
+    supported = ('C', 'C++', 'JavaScript')
+    return any((lang.endswith(l + '.tmLanguage') for l in supported))
+
 # Triggered when the user runs clang format.
 class ClangFormatCommand(sublime_plugin.TextCommand):
     def run(self, edit, whole_buffer=False):
@@ -138,10 +143,10 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         # Check that the binary exists.
         if not check_binary():
             return
-        
+
         # Status message.
         sublime.status_message("Clang format (style: "+ style + ")." )
-        
+
         #----------------------------------------------------------------------#
         # The below code has been taken and tweaked from llvm.
         #----------------------------------------------------------------------#
@@ -166,7 +171,7 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
 
         regions = []
         if whole_buffer:
-            regions = [sublime.Region(0, self.view.size())]            
+            regions = [sublime.Region(0, self.view.size())]
         else:
             regions = self.view.sel()
 
@@ -190,7 +195,7 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
 
         # We only set the offset once, otherwise CF complains.
         command.extend(['-assume-filename', str(self.view.file_name())] )
-        
+
         # TODO: Work out what this does.
         # command.extend(['-output-replacements-xml'])
 
@@ -199,7 +204,7 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         p   = subprocess.Popen(command, stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         output, error = p.communicate(buf.encode(encoding))
-        
+
         # Display any errors returned by clang-format using a message box,
         # instead of just printing them to the console. Also, we halt on all
         # errors: e.g. We don't just settle for using using a default style.
@@ -207,7 +212,7 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
             # We don't want to do anything by default.
             # If the error message tells us it is doing that, truncate it.
             default_message = ", using LLVM style"
-            msg = error.decode("utf-8")          
+            msg = error.decode("utf-8")
             if msg.strip().endswith(default_message):
                 msg = msg[:-len(default_message)-1]
             sublime.error_message("Clang format: " + msg)
@@ -233,12 +238,12 @@ class clangFormatEventListener(sublime_plugin.EventListener):
         # Only do this for C or C++. TODO: we should consider adding support
         # For Objective-C at some point.
         syntax = view.settings().get('syntax')
-        if syntax.endswith('C.tmLanguage') or syntax.endswith('C++.tmLanguage'):            
+        if is_supported(syntax):
             # Ensure that settings are up to date.
             load_settings()
             if format_on_save:
                 print("Auto-applying Clang Format on save.")
-                view.run_command("clang_format", {"whole_buffer": True}) 
+                view.run_command("clang_format", {"whole_buffer": True})
 
 # Called from the UI to update the path in the settings.
 class clangFormatSetPathCommand(sublime_plugin.WindowCommand):
