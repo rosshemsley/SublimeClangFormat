@@ -21,7 +21,7 @@
                                 }
                             },
                             {
-                                "caption": "Cystom Style – User",
+                                "caption": "Custom Style – User",
                                 "command": "open_file", "args":
                                 {
                                     "file": "${packages}/User/clang_format_custom.sublime-settings"
