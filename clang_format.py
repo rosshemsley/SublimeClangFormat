@@ -201,8 +201,16 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
 
         # Run CF, and set buf to its output.
         buf = self.view.substr(sublime.Region(0, self.view.size()))
-        p   = subprocess.Popen(command, stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        # Dont open console in windows fix
+        kwargs = {}
+        if subprocess.mswindows:
+            su = subprocess.STARTUPINFO()
+            su.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+            su.wShowWindow = subprocess.SW_HIDE
+            kwargs['startupinfo'] = su
+        p = subprocess.Popen(command, stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE, stdin=subprocess.PIPE, **kwargs)
+        del kwargs
         output, error = p.communicate(buf.encode(encoding))
 
         # Display any errors returned by clang-format using a message box,
