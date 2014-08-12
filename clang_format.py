@@ -201,8 +201,8 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
 
         # Run CF, and set buf to its output.
         buf = self.view.substr(sublime.Region(0, self.view.size()))
-        # Dont open console in windows fix
         kwargs = {}
+        # Dont open console in windows fix
         if subprocess.mswindows:
             su = subprocess.STARTUPINFO()
             su.dwFlags |= subprocess.STARTF_USESHOWWINDOW
