@@ -256,18 +256,17 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         self.view.replace(
             edit, sublime.Region(0, self.view.size()),
             output.decode(encoding))
-
+        
+        # ST2 only fix
         if int(sublime.version()) < 3000:
+
             # Clear selection
             self.view.sel().clear()
             # Return old selection/cursor position
             for region in cursor_sel:
                 self.view.sel().add(region)
-            # TODO: better semantics for re-positioning cursors!
 
-            # TODO: decide if this is really needed. It seems not?
-            # FIXME: Without the 10ms delay, the viewport sometimes jumps.
-
+            # Return old viewport
             sublime.set_timeout(self.restore_viewport, 1)
 
 # Hook for on-save event, to allow application of clang-format on save.
