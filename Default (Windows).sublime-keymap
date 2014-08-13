@@ -1,16 +1,16 @@
 [
     // TODO: figure out how to match multiple scopes.
-    { "keys": ["ctrl+option+a"], "command": "clang_format",
+    { "keys": ["ctrl+alt+a"], "command": "clang_format",
         "context":  
         [
             {"key": "selector", "operator": "equal", "operand": "source.c++"}
-        ],
+        ]
     },
-
-    { "keys": ["ctrl+option+a"], "command": "clang_format",
-    "context":  
-    [
-        {"key": "selector", "operator": "equal", "operand": "source.c"}
-    ],
-}
+    
+    { "keys": ["ctrl+alt+a"], "command": "clang_format",
+        "context":  
+        [
+            {"key": "selector", "operator": "equal", "operand": "source.c"}
+        ]
+    }
 ]
