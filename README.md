@@ -3,7 +3,7 @@ Clang Format
 
 What it does
 ------------
-Clang-format is a tool for re-formatting C++, built on llvm. This is a
+Clang-format is a tool for re-formatting C++, built on LLVM. This is a
 package that allows you to run it easily from within Sublime Text.
 
 ![demo](https://raw.githubusercontent.com/rosshemsley/demos/master/clang_format.gif)
@@ -11,23 +11,30 @@ package that allows you to run it easily from within Sublime Text.
 About
 -----
 In this package, we provide an alternative wrapper around clang-format
-for use within Sublime Text 3. Whilst llvm does provide a very simple plugin
+for use within Sublime Text 3. Whilst LLVM does provide a very simple plugin
 to work with Sublime Text already:
 https://llvm.org/svn/llvm-project/cfe/trunk/tools/clang-format/clang-format-sublime.py,
-it doesn't really exploit any of the Sublime Text package functionality. 
+it doesn't really exploit any of the Sublime Text package functionality.
 We add new features such as customising the style from a settings file,
 selecting styles using the Command Palette, and easier installation.
 
 Installing
 ----------
 - Install this package through Package Control in the usual way.
-- Get the clang-format binary. If you don't already have it, you can download
-  binaries from llvm: http://llvm.org/releases/download.html.
-  This will give you the whole llvm toolchain... however, for the philistines
-  among you: yes, it appears you can just copy the binary for clang-format
-  out of the bin directory and trash the rest and it will still work.
+- Get the clang-format binary for your platform. All these binaries are from
+  the LLVM 3.5 release. They are for **64-bit platforms only**:
+  - [Fedora 20](http://107.170.192.246:8001/llvm3.5/fedora20/clang-format)
+  - [FreeBSD 10](http://107.170.192.246:8001/llvm3.5/freebsd10/clang-format)
+  - [OS X Mavericks](http://107.170.192.246:8001/llvm3.5/mavericks/clang-format)
+  - [openSUSE 13.1](http://107.170.192.246:8001/llvm3.5/opensuse13.1/clang-format)
+  - [Ubuntu 14.04](http://107.170.192.246:8001/llvm3.5/ubuntu14.04/clang-format)
+  - [Windows](http://107.170.192.246:8001/llvm3.5/windows/clang-format.exe)
+
+  If you prefer, you can download the [entire LLVM toolchain](http://llvm.org/releases/download.html)
+  and extract the `clang-format` binary yourself. Just extract the `.tar.xz`
+  file and copy `bin/clang-format` into your PATH (e.g. `/usr/local/bin`).
 - Set the path to the clang-format binaries. You can do this from within Sublime
-  Text by choosing `Clang Format - Set Path` from the command palette.  Hint: 
+  Text by choosing `Clang Format - Set Path` from the command palette.  Hint:
   the path should look something like this `[path/to/clang]/clang/bin/clang-format`.
   If clang-format is in your system path, you shouldn't need to do anything.
 
@@ -39,7 +46,7 @@ Use
   `Clang Format: Select Style`. You will find the small number of defaults,
   and also a new 'Custom' entry. Selecting this entry allows you to customise
   the style through a settings file. You can access it from the main menu,
-  under `Package Settings`. In this file you can add custom rules, such 
+  under `Package Settings`. In this file you can add custom rules, such
   as `Allmen` style braces, and different indents. For examples see
   http://clang.llvm.org/docs/ClangFormatStyleOptions.html.
 - Settings for the 'Custom' format and others are available through the Sublime
@@ -55,7 +62,7 @@ used to using a shell. Otherwise, why not pop over and star this repo on GitHub?
 
 Credits
 -------
-Thanks to the llvm project for doing the hard work, including writing clang
+Thanks to the LLVM project for doing the hard work, including writing clang
 format, and also the original Sublime Text plugin on which this package is
 based.
 
