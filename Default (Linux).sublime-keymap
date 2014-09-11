@@ -8,9 +8,16 @@
     },
 
     { "keys": ["ctrl+option+a"], "command": "clang_format",
-    "context":  
-    [
-        {"key": "selector", "operator": "equal", "operand": "source.c"}
-    ],
-}
+        "context":  
+        [
+            {"key": "selector", "operator": "equal", "operand": "source.c"}
+        ],
+    },
+    
+    { "keys": ["ctrl+option+a"], "command": "clang_format",
+        "context":
+        [
+            {"key": "selector", "operator": "equal", "operand": "source.js"}
+        ]
+    }
 ]

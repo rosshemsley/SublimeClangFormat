@@ -1,6 +1,10 @@
 Clang Format
 ============
 
+***Updates:***
+Preliminary support for Javascript has been added! Update to latest version 
+of clang-format provided with LLVM 3.5 to avoid known [bugs](https://github.com/rosshemsley/SublimeClangFormat/pull/4).
+
 What it does
 ------------
 Clang-format is a tool for re-formatting C++, built on LLVM. This is a
@@ -21,7 +25,7 @@ selecting styles using the Command Palette, and easier installation.
 Installing
 ----------
 - Install this package through Package Control in the usual way.
-- Get the clang-format binary for your platform. All these binaries are from
+- Get the clang-format binary for your platform. All binaries provided below are from
   the LLVM 3.5 release. They are for **64-bit platforms only**:
   - [Fedora 20](http://107.170.192.246:8001/llvm3.5/fedora20/clang-format)
   - [FreeBSD 10](http://107.170.192.246:8001/llvm3.5/freebsd10/clang-format)
@@ -50,9 +54,11 @@ Use
   as `Allmen` style braces, and different indents. For examples see
   http://clang.llvm.org/docs/ClangFormatStyleOptions.html.
 - Settings for the 'Custom' format and others are available through the Sublime
-  Text preferences. Note that it is possible to enable the formatter on every
+  Text preferences. 
+- It is possible to enable the formatter on every
   save to a C/C++ file. To change settings on a per-package basis, check out the
   package "Project-Specific".
+
 
 If You Liked This
 -----------------
@@ -66,7 +72,11 @@ Thanks to the LLVM project for doing the hard work, including writing clang
 format, and also the original Sublime Text plugin on which this package is
 based.
 
-Also, why not go and watch the video that got me interested in clang-format in
+Also thanks to [y0ssar1an](https://github.com/y0ssar1an) and [Bendtherules](https://github.com/bendtherules) for their improvements!
+
+Finally
+--------
+Why not go and watch the video that got me interested in clang-format in
 the first place?
 
-http://channel9.msdn.com/Events/GoingNative/2013/The-Care-and-Feeding-of-C-s-Dragons
+[The Care and Feeding of C++'s Dragons](http://channel9.msdn.com/Events/GoingNative/2013/The-Care-and-Feeding-of-C-s-Dragons)

@@ -10,7 +10,7 @@
     { "keys": ["super+option+a"], "command": "clang_format",
         "context":
         [
-           {"key": "selector", "operator": "equal", "operand": "source.c"}
+            {"key": "selector", "operator": "equal", "operand": "source.c"}
         ],
     },
 
