@@ -36,6 +36,12 @@ all_settings  = [
     "SpacesInParentheses", "Standard", "TabWidth", "UseTab"
 ]
 
+# Check if we are running on a Windows operating system
+os_is_windows = os.name == 'nt'
+
+# The default name of the clang-format executable
+default_binary = 'clang-format.exe' if os_is_windows else 'clang-format'
+
 # This function taken from Stack Overflow response:
 # http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
 def which(program):
@@ -104,14 +110,17 @@ def check_binary():
     # If we couldn't find the binary.
     if (which(binary) == None):
         # Try to guess the correct setting.
-        if (which("clang-format") != None):
+        if (which(default_binary) != None):
             # Looks like clang-format is in the path, remember that.
-            set_path('clang-format')
+            set_path(default_binary)
+            return True
         # We suggest setting a new path using an input panel.
         msg = "The clang-format binary was not found. Set a new path?"
         if sublime.ok_cancel_dialog(msg):
             update_path()
-        return False
+            return True
+        else:
+            return False
     return True
 
 # Load settings and put their values into global scope.
@@ -123,7 +132,7 @@ def load_settings():
     global format_on_save
     settings = sublime.load_settings(settings_file)
     # Load settings, with defaults.
-    binary        = settings.get('binary', 'clang-format')
+    binary        = settings.get('binary', default_binary)
     style         = settings.get('style',   styles[0]    )
     format_on_save = settings.get('format_on_save', False  )
 
@@ -201,7 +210,7 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         # Run CF, and set buf to its output.
         buf = self.view.substr(sublime.Region(0, self.view.size()))
         startupinfo = None
-        if os.name == 'nt':
+        if os_is_windows:
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
         p   = subprocess.Popen(command, stdout=subprocess.PIPE,
