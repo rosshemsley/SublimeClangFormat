@@ -1,5 +1,5 @@
 import sublime, sublime_plugin
-import subprocess
+import subprocess, os
 
 # The styles available by default. We add one option: "Custom". This tells
 # the plugin to look in an ST settings file to load the customised style.
@@ -39,7 +39,6 @@ all_settings  = [
 # This function taken from Stack Overflow response:
 # http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
 def which(program):
-    import os
     def is_exe(fpath):
         return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
     fpath, fname = os.path.split(program)
@@ -201,8 +200,13 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
 
         # Run CF, and set buf to its output.
         buf = self.view.substr(sublime.Region(0, self.view.size()))
+        startupinfo = None
+        if os.name == 'nt':
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
         p   = subprocess.Popen(command, stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                               stderr=subprocess.PIPE, stdin=subprocess.PIPE,
+                               startupinfo=startupinfo)
         output, error = p.communicate(buf.encode(encoding))
 
         # Display any errors returned by clang-format using a message box,
