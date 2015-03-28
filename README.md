@@ -2,8 +2,8 @@ Clang Format
 ============
 
 ***Updates:***
-Preliminary support for Javascript has been added! Update to latest version 
-of clang-format provided with LLVM 3.5 to avoid known [bugs](https://github.com/rosshemsley/SublimeClangFormat/pull/4).
+Preliminary support for JavasSript has been added! Update to latest version
+of clang-format provided with LLVM 3.6 to avoid known [bugs](https://github.com/rosshemsley/SublimeClangFormat/pull/4).
 
 What it does
 ------------
@@ -26,13 +26,13 @@ Installing
 ----------
 - Install this package through Package Control in the usual way.
 - Get the clang-format binary for your platform. All binaries provided below are from
-  the LLVM 3.5 release. They are for **64-bit platforms only**:
-  - [Fedora 20](http://107.170.192.246:8001/llvm3.5/fedora20/clang-format)
-  - [FreeBSD 10](http://107.170.192.246:8001/llvm3.5/freebsd10/clang-format)
-  - [OS X Mavericks](http://107.170.192.246:8001/llvm3.5/mavericks/clang-format)
-  - [openSUSE 13.1](http://107.170.192.246:8001/llvm3.5/opensuse13.1/clang-format)
-  - [Ubuntu 14.04](http://107.170.192.246:8001/llvm3.5/ubuntu14.04/clang-format)
-  - [Windows](http://107.170.192.246:8001/llvm3.5/windows/clang-format.exe)
+  the LLVM 3.6 release. They are for **64-bit platforms only**:
+  - [Fedora 21](http://107.170.192.246:8001/llvm3.6/fedora21/clang-format)
+  - [FreeBSD 10](http://107.170.192.246:8001/llvm3.6/freebsd10/clang-format)
+  - [OS X](http://107.170.192.246:8001/llvm3.6/osx/clang-format)
+  - [openSUSE 13.2](http://107.170.192.246:8001/llvm3.6/opensuse13.2/clang-format)
+  - [Ubuntu 14.04](http://107.170.192.246:8001/llvm3.6/ubuntu14.04/clang-format)
+  - [Windows](http://107.170.192.246:8001/llvm3.6/windows/clang-format.exe)
 
   If you prefer, you can download the [entire LLVM toolchain](http://llvm.org/releases/download.html)
   and extract the `clang-format` binary yourself. Just extract the `.tar.xz`
@@ -54,7 +54,7 @@ Use
   as `Allmen` style braces, and different indents. For examples see
   http://clang.llvm.org/docs/ClangFormatStyleOptions.html.
 - Settings for the 'Custom' format and others are available through the Sublime
-  Text preferences. 
+  Text preferences.
 - It is possible to enable the formatter on every
   save to a C/C++ file. To change settings on a per-package basis, check out the
   package "Project-Specific".
