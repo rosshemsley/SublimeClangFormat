@@ -2,7 +2,7 @@ Clang Format
 ============
 
 ***Updates:***
-Preliminary support for JavasSript has been added! Update to latest version
+Preliminary support for JavasScript has been added! Update to latest version
 of clang-format provided with LLVM 3.6 to avoid known [bugs](https://github.com/rosshemsley/SublimeClangFormat/pull/4).
 
 What it does
