@@ -130,11 +130,13 @@ def load_settings():
     global binary
     global style
     global format_on_save
+    global verbose
     settings = sublime.load_settings(settings_file)
     # Load settings, with defaults.
     binary        = settings.get('binary', default_binary)
     style         = settings.get('style',   styles[0]    )
     format_on_save = settings.get('format_on_save', False  )
+    verbose        = settings.get('verbose', False )
 
 def is_supported(lang):
     # TODO: Add Objective-C and Objective-C++ here.
@@ -255,7 +257,8 @@ class clangFormatEventListener(sublime_plugin.EventListener):
             # Ensure that settings are up to date.
             load_settings()
             if format_on_save:
-                print("Auto-applying Clang Format on save.")
+                if verbose:
+                    print("Auto-applying Clang Format on save.")
                 view.run_command("clang_format", {"whole_buffer": True})
 
 # Called from the UI to update the path in the settings.
