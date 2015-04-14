@@ -138,7 +138,7 @@ def load_settings():
 
 def is_supported(lang):
     # TODO: Add Objective-C and Objective-C++ here.
-    supported = ('C', 'C++', 'JavaScript')
+    supported = ('C', 'C++', 'C++11', 'JavaScript')
     return any((lang.endswith(l + '.tmLanguage') for l in supported))
 
 # Triggered when the user runs clang format.
