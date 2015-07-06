@@ -12,28 +12,32 @@ custom_style_settings = 'clang_format_custom.sublime-settings'
 # Hacky, but there doesn't seem to be a cleaner way to do this for now.
 # We need to be able to load all these settings from the settings file.
 all_settings  = [
-    "BasedOnStyle", "AccessModifierOffset", "AlignEscapedNewlinesLeft",
+    "BasedOnStyle", "AccessModifierOffset", "AlignAfterOpenBracket",
+    "AlignConsecutiveAssignments", "AlignEscapedNewlinesLeft",
     "AlignTrailingComments", "AllowAllParametersOfDeclarationOnNextLine",
+    "AllowShortBlocksOnASingleLine", "AllowShortCaseLabelsOnASingleLine",
     "AllowShortFunctionsOnASingleLine", "AllowShortIfStatementsOnASingleLine",
-    "AllowShortLoopsOnASingleLine", "AlwaysBreakBeforeMultilineStrings",
-    "AlwaysBreakTemplateDeclarations", "BinPackParameters",
+    "AllowShortLoopsOnASingleLine", "AlwaysBreakAfterDefinitionReturnType",
+    "AlwaysBreakBeforeMultilineStrings", "AlwaysBreakTemplateDeclarations",
+    "BinPackArguments", "BinPackParameters",
     "BreakBeforeBinaryOperators", "BreakBeforeBraces",
     "BreakBeforeTernaryOperators", "BreakConstructorInitializersBeforeComma",
     "ColumnLimit", "CommentPragmas",
     "ConstructorInitializerAllOnOneLineOrOnePerLine",
     "ConstructorInitializerIndentWidth", "ContinuationIndentWidth",
-    "Cpp11BracedListStyle", "DerivePointerBinding",
+    "Cpp11BracedListStyle", "DerivePointerBinding", "DisableFormat",
     "ExperimentalAutoDetectBinPacking", "IndentCaseLabels",
-    "IndentFunctionDeclarationAfterType", "IndentWidth",
-    "KeepEmptyLinesAtTheStartOfBlocks", "Language", "MaxEmptyLinesToKeep",
-    "NamespaceIndentation", "ObjCSpaceAfterProperty",
-    "ObjCSpaceBeforeProtocolList", "PenaltyBreakBeforeFirstCallParameter",
-    "PenaltyBreakComment", "PenaltyBreakFirstLessLess", "PenaltyBreakString",
-    "PenaltyExcessCharacter", "PenaltyReturnTypeOnItsOwnLine",
+    "IndentFunctionDeclarationAfterType", "IndentWidth", "IndentWrappedFunctionNames",
+    "KeepEmptyLinesAtTheStartOfBlocks", "Language", "MacroBlockBegin", "MacroBlockEnd",
+    "MaxEmptyLinesToKeep", "NamespaceIndentation", "ObjCBlockIndentWidth",
+    "ObjCSpaceAfterProperty", "ObjCSpaceBeforeProtocolList",
+    "PenaltyBreakBeforeFirstCallParameter", "PenaltyBreakComment",
+    "PenaltyBreakFirstLessLess", "PenaltyBreakString",
+    "PenaltyExcessCharacter", "PenaltyReturnTypeOnItsOwnLine", "PointerAlignment",
     "PointerBindsToType", "SpaceBeforeAssignmentOperators", "SpaceBeforeParens",
     "SpaceInEmptyParentheses", "SpacesBeforeTrailingComments", "SpacesInAngles",
     "SpacesInCStyleCastParentheses", "SpacesInContainerLiterals",
-    "SpacesInParentheses", "Standard", "TabWidth", "UseTab"
+    "SpacesInParentheses", "SpacesInSquareBrackets", "Standard", "TabWidth", "UseTab"
 ]
 
 # Check if we are running on a Windows operating system
