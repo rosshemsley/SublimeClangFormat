@@ -134,16 +134,18 @@ def load_settings():
     global binary
     global style
     global format_on_save
+    global languages
     settings = sublime.load_settings(settings_file)
     # Load settings, with defaults.
-    binary        = settings.get('binary', default_binary)
-    style         = settings.get('style',   styles[0]    )
+    binary         = settings.get('binary', default_binary)
+    style          = settings.get('style',   styles[0]    )
     format_on_save = settings.get('format_on_save', False  )
+    languages      = settings.get('languages', ['C', 'C++', 'C++11', 'JavaScript'])
 
 def is_supported(lang):
     # TODO: Add Objective-C and Objective-C++ here.
-    supported = ('C', 'C++', 'C++11', 'JavaScript')
-    return any((lang.endswith(l + '.tmLanguage') for l in supported))
+    load_settings()
+    return any((lang.endswith(l + '.tmLanguage') for l in languages))
 
 # Triggered when the user runs clang format.
 class ClangFormatCommand(sublime_plugin.TextCommand):
