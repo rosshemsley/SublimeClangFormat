@@ -145,7 +145,7 @@ def load_settings():
 def is_supported(lang):
     # TODO: Add Objective-C and Objective-C++ here.
     load_settings()
-    return any((lang.endswith(l + '.tmLanguage') for l in languages))
+    return any((lang.endswith((l + '.tmLanguage', l + '.sublime-syntax')) for l in languages))
 
 # Triggered when the user runs clang format.
 class ClangFormatCommand(sublime_plugin.TextCommand):
