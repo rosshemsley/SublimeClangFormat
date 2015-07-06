@@ -24,8 +24,8 @@
     "format_on_save": false,
 
     // If format_on_save is set to true, ClangFormat checks if the current file
-    // has its syntax set to a language in the list below.  If it is in the list,
-    // then file will be formatted by ClangFormat.
+    // has its syntax set to a language in the list below. If it is in the list,
+    // then the file will be formatted by ClangFormat.
 
     "languages": ["C", "C++", "C++11", "JavaScript", "Objective-C", "Objective-C++"]
 }
