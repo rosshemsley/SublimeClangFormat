@@ -17,12 +17,23 @@
     // The extra indent or outdent of access modifiers, e.g. "public":.    
 //  "AccessModifierOffset": 2,
 
+    // If true, horizontally aligns arguments after an open bracket.
+    // This applies to round brackets (parentheses), angle brackets and square brackets.
+    // This will result in formattings like:
+    //     someLongFunction(argument1, argument2);
+//  "AlignAfterOpenBracket": true,
+
+    // If true, aligns consecutive assignments.
+    // This will align the assignment operators of consecutive lines.
+    // This will result in formattings like:
+    //     int aaaa = 12;
+    //     int b    = 23;
+    //     int ccc  = 23;
+//  "AlignConsecutiveAssignments": true,
 
     // If true, aligns escaped newlines as far left as possible. Otherwise puts
     // them into the right-most column.
-
 //  "AlignEscapedNewlinesLeft": true,
-
 
     // If true, aligns trailing comments.
 //  "AlignTrailingComments": true,
@@ -30,6 +41,13 @@
     // Allow putting all parameters of a function declaration onto the next line
     // even if BinPackParameters is false.
 //  "AllowAllParametersOfDeclarationOnNextLine": true,
+
+    // Allows contracting simple braced statements to a single line.
+    // E.g., this allows if (a) { return; } to be put on a single line.
+//  "AllowShortBlocksOnASingleLine": true,
+
+    // If true, short case labels will be contracted to a single line.
+//  "AllowShortCaseLabelsOnASingleLine": true,
 
     // Dependent on the value, int f() { return 0; } can be put on a single
     // line.
@@ -48,11 +66,24 @@
     // If true, while (true) continue; can be put on a single line.
 //  "AllowShortLoopsOnASingleLine": true,
 
+    // The function definition return type breaking style to use.
+    // Possible values:
+    //     DRTBS_None     (in configuration: None) Break after return type automatically.
+    //     PenaltyReturnTypeOnItsOwnLine is taken into account.
+    //     DRTBS_All      (in configuration: All) Always break after the return type.
+    //     DRTBS_TopLevel (in configuration: TopLevel) Always break after the return types
+    //     of top level functions.
+//  "AlwaysBreakAfterDefinitionReturnType": true,
+
     // If true, always break before multiline string literals.
 //  "AlwaysBreakBeforeMultilineStrings": true,
 
     // If true, always break after the template<...> of a template declaration.
 //  "AlwaysBreakTemplateDeclarations": true,
+
+    // If false, a function call’s arguments will either be all on the same line
+    // or will have one line each.
+//  "BinPackArguments": true,
 
     // If false, a function call’s or function definition’s parameters will
     // either all be on the same line or will have one line each.
@@ -116,6 +147,9 @@
     // PointerBindsToType only as fallback.
 //  "DerivePointerBinding": true,
 
+    // Disables formatting completely.
+//  "DisableFormat": false,
+
     // If true, clang-format detects whether function calls and definitions are
     // formatted with one parameter per line. Each call can be bin-packed, one-
     // per-line or inconclusive. If it is inconclusive, e.g. completely on one
@@ -143,6 +177,9 @@
     // The number of columns to use for indentation.
 //  "IndentWidth": 2,
 
+    // Indent if a function definition or declaration is wrapped after the type.
+//  "IndentWrappedFunctionNames": true,
+
     // If true, empty lines at the start of blocks are kept.
 // "KeepEmptyLinesAtTheStartOfBlocks": true,
 
@@ -154,6 +191,12 @@
     // ("https"://developers.google.com/protocol-buffers/). 
 //  "Language": "Cpp",
 
+    // A regular expression matching macros that start a block.
+//  MacroBlockStart: "*_MACRO_START"
+
+    // A regular expression matching macros that end a block.
+//  MacroBlockEnd: "*_MACRO_END",
+
     // The maximum number of consecutive empty lines to keep.
 //  "MaxEmptyLinesToKeep": 2,
 
@@ -164,6 +207,9 @@
     // (nested in other namespaces).    
     // NI_All (in "configuration": All) Indent in all namespaces.
 //  "NamespaceIndentation": "Inner",
+
+    // The number of characters to use for indentation of ObjC blocks.
+//  "ObjCBlockIndentWidth": 4,
 
     // Add a space after @property in Objective-C, i.e. use @property (readonly)
     // instead of @property(readonly).    
@@ -190,6 +236,13 @@
 
     // Penalty for putting the return type of a function onto its own line.
 //  "PenaltyReturnTypeOnItsOwnLine": 0,
+
+    // Pointer and reference alignment style.
+    // Possible values:
+    //     PAS_Left   (in configuration: Left) Align pointer to the left.
+    //     PAS_Right  (in configuration: Right) Align pointer to the right.
+    //     PAS_Middle (in configuration: Middle) Align pointer in the middle.
+//  "PointerAlignment": "PAS_Left",
 
     // Set whether & and * bind to the type as opposed to the variable.
 //  "PointerBindsToType": true,
@@ -231,6 +284,9 @@
 
     // If true, spaces will be inserted after ‘(‘ and before ‘)’.
 //  "SpacesInParentheses": true,
+
+    // If true, spaces will be inserted after ‘[‘ and before ‘]’.
+//  "SpacesInSquareBrackets": true,
 
     // Format compatible with this standard, e.g. use A<A<int> > instead of
     // A<A<int>> for LS_Cpp03. Possible "values":
