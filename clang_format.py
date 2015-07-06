@@ -143,7 +143,6 @@ def load_settings():
     languages      = settings.get('languages', ['C', 'C++', 'C++11', 'JavaScript'])
 
 def is_supported(lang):
-    # TODO: Add Objective-C and Objective-C++ here.
     load_settings()
     return any((lang.endswith((l + '.tmLanguage', l + '.sublime-syntax')) for l in languages))
 
@@ -253,9 +252,7 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
 # Hook for on-save event, to allow application of clang-format on save.
 class clangFormatEventListener(sublime_plugin.EventListener):
     def on_pre_save(self, view):
-
-        # Only do this for C or C++. TODO: we should consider adding support
-        # For Objective-C at some point.
+        # Only do this for supported languages
         syntax = view.settings().get('syntax')
         if is_supported(syntax):
             # Ensure that settings are up to date.
