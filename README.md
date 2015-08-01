@@ -67,6 +67,8 @@ If You Liked This
 - Maybe you'll like my other plugin, [iOpener](https://github.com/rosshemsley/iOpener).
 It lets you open files by path, with completion, history, and other goodies.
 
+- Otherwise, why not pop on over and star this repo on GitHub?
+
 Credits
 -------
 Thanks to the LLVM project for doing the hard work, including writing clang
