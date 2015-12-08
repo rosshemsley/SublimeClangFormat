@@ -20,7 +20,22 @@
     // If true, horizontally aligns arguments after an open bracket.
     // This applies to round brackets (parentheses), angle brackets and square brackets.
     // This will result in formattings like:
-    //     someLongFunction(argument1, argument2);
+    // Possible values:
+
+    // BAS_Align (in configuration: Align) Align parameters on the open bracket,
+    //  e.g.:
+    // someLongFunction(argument1,
+    //                  argument2);
+    //                  
+    // BAS_DontAlign (in configuration: DontAlign) Don’t align, instead use 
+    // ContinuationIndentWidth, e.g.:
+    // someLongFunction(argument1,
+    //     argument2);
+    //     
+    // BAS_AlwaysBreak (in configuration: AlwaysBreak) Always break after an 
+    // open bracket, if the parameters don’t fit on a single line, e.g.:
+    // someLongFunction(
+    //     argument1, argument2);
 //  "AlignAfterOpenBracket": true,
 
     // If true, aligns consecutive assignments.
@@ -31,9 +46,19 @@
     //     int ccc  = 23;
 //  "AlignConsecutiveAssignments": true,
 
+    // If true, aligns consecutive declarations.
+    // This will align the declaration names of consecutive lines. This will result in formattings like
+    // int         aaaa = 12;
+    // float       b = 23;
+    // std::string ccc = 23;
+// "AlignConsecutiveDeclarations": true,
+
     // If true, aligns escaped newlines as far left as possible. Otherwise puts
     // them into the right-most column.
 //  "AlignEscapedNewlinesLeft": true,
+
+    // If true, horizontally align operands of binary and ternary expressions.
+// "AlignOperands": true,   
 
     // If true, aligns trailing comments.
 //  "AlignTrailingComments": true,
@@ -54,6 +79,7 @@
     // Possible values:
     //     SFS_None   (in "configuration": None) Never merge functions into a
     //     single line.    
+    //     SFS_Empty (in configuration: Empty) Only merge empty functions.
     //     SFS_Inline (in "configuration": Inline) Only merge functions defined
     //     inside a class.
     //     SFS_All    (in "configuration": All) Merge all functions fitting on a
@@ -73,9 +99,13 @@
     //     DRTBS_All      (in configuration: All) Always break after the return type.
     //     DRTBS_TopLevel (in configuration: TopLevel) Always break after the return types
     //     of top level functions.
-//  "AlwaysBreakAfterDefinitionReturnType": true,
+//  "AlwaysBreakAfterDefinitionReturnType": "None",
 
     // If true, always break before multiline string literals.
+    // This flag is mean to make cases where there are multiple multiline 
+    // strings in a file look more consistent. Thus, it will only take effect 
+    // if wrapping the string at that point leads to it being indented 
+    // ContinuationIndentWidth spaces from the start of the line.
 //  "AlwaysBreakBeforeMultilineStrings": true,
 
     // If true, always break after the template<...> of a template declaration.
@@ -89,8 +119,32 @@
     // either all be on the same line or will have one line each.
 //  "BinPackParameters": true,
 
-    // If true, binary operators will be placed after line breaks.
-//  "BreakBeforeBinaryOperators": false,
+    // Control of individual brace wrapping cases.
+    // If BreakBeforeBraces is set to custom, use this to specify how each 
+    // individual brace case should be handled. Otherwise, this is ignored.
+    // Nested configuration flags:    
+    // bool AfterClass Wrap class definitions.
+    // bool AfterControlStatement Wrap control statements (if/for/while/switch/..).
+    // bool AfterEnum Wrap enum definitions.
+    // bool AfterFunction Wrap function definitions.
+    // bool AfterNamespace Wrap namespace definitions.
+    // bool AfterObjCDeclaration Wrap ObjC definitions (@autoreleasepool, interfaces, ..).
+    // bool AfterStruct Wrap struct definitions.
+    // bool AfterUnion Wrap union definitions.
+    // bool BeforeCatch Wrap before catch.
+    // bool BeforeElse Wrap before else.
+    // bool IndentBraces Indent the wrapped braces themselves.
+// "BraceWrapping": "IndentBraces",
+
+    // Break after each annotation on a field in Java files.
+// "BreakAfterJavaFieldAnnotations": true,
+
+    // The way to wrap binary operators.
+    // Possible values:
+    // BOS_None (in configuration: None) Break after operators.
+    // BOS_NonAssignment (in configuration: NonAssignment) Break before operators that aren’t assignments.
+    // BOS_All (in configuration: All) Break before operators.
+//  "BreakBeforeBinaryOperators": "None",
 
     // The brace breaking style to use.
     // Possible "values":
@@ -98,12 +152,17 @@
     // surrounding context.
     // BS_Linux (in "configuration": Linux) Like Attach, but break before braces
     // on function, namespace and class definitions.
+    // BS_Mozilla (in configuration: Mozilla) Like Attach, but break before 
+    // braces on enum, function, and record definitions.
     // BS_Stroustrup (in "configuration": Stroustrup) Like Attach, but break
     // before function definitions.
-    // BS_Allman (in "configuration": Allman) Always break before braces. BS_GNU
-    // (in "configuration": GNU) Always break before braces and add an extra
+    // BS_Allman (in "configuration": Allman) Always break before braces. 
+    // BS_GNU (in "configuration": GNU) Always break before braces and add an extra
     // level of indentation to braces of control statements, not to those of
     // class, function or other definitions.
+    // BS_WebKit (in configuration: WebKit) Like Attach, but break before functions.
+    // BS_Custom (in configuration: Custom) Configure each individual brace in 
+    // BraceWrapping.
 //  "BreakBeforeBraces": "Attach",
 
     // If true, ternary operators will be placed after line breaks.
@@ -143,9 +202,9 @@
     // that name. If there is no name, a zero-length name is assumed.
 //  "Cpp11BracedListStyle": true,
 
-    // If true, analyze the formatted file for the most common binding and use
-    // PointerBindsToType only as fallback.
-//  "DerivePointerBinding": true,
+    // If true, analyze the formatted file for the most common alignment of 
+    // & and *. PointerAlignment is then used only as fallback.
+//  "DerivePointerAlignment": true,
 
     // Disables formatting completely.
 //  "DisableFormat": false,
@@ -160,10 +219,34 @@
 //  "ExperimentalAutoDetectBinPacking": true,
 
     // A vector of macros that should be interpreted as foreach loops instead of
-    // as function calls. These are expected to be macros of the "form": code
-    // FOREACH(<variable-declaration>, ...) <loop-body> endcode 
-    // For "example": BOOST_FOREACH.
-    // ForEachMacros ("std""::"vector<"std""::"string>)
+    // as function calls. These are expected to be macros of the "form":
+    // FOREACH(<variable-declaration>, ...)
+    // <loop-body>
+    // In the .clang-format configuration file, this can be configured like:
+    // ForEachMacros: ['RANGES_FOR', 'FOREACH']
+    // For example: BOOST_FOREACH.
+// "ForEachMacros": "['RANGES_FOR', 'FOREACH']" 
+    
+    // Regular expressions denoting the different #include categories used for 
+    // ordering #includes.
+    // These regular expressions are matched against the filename of an include
+    // (including the <> or “”) in order. The value belonging to the first 
+    // matching regular expression is assigned and #includes are sorted first 
+    // according to increasing category number and then alphabetically within 
+    // each category.
+    // If none of the regular expressions match, UINT_MAX is assigned as 
+    // category. The main header for a source file automatically gets 
+    // category 0, so that it is kept at the beginning of the 
+    // #includes (http://llvm.org/docs/CodingStandards.html#include-style).
+    // To configure this in the .clang-format file, use:
+    // IncludeCategories:
+    //   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
+    //     Priority:        2
+    //   - Regex:           '^(<|"(gtest|isl|json)/)'
+    //     Priority:        3
+    //   - Regex:           '.\*'
+    //     Priority:        1
+// "IncludeCategories": "UINT_MAX"
 
     // Indent case labels one level from the switch statement. When false, use
     // the same indentation level as for the switch statement. Switch statement
@@ -192,7 +275,7 @@
 //  "Language": "Cpp",
 
     // A regular expression matching macros that start a block.
-//  MacroBlockStart: "*_MACRO_START"
+//  MacroBlockBegin: "*_MACRO_START"
 
     // A regular expression matching macros that end a block.
 //  MacroBlockEnd: "*_MACRO_END",
@@ -244,8 +327,8 @@
     //     PAS_Middle (in configuration: Middle) Align pointer in the middle.
 //  "PointerAlignment": "PAS_Left",
 
-    // Set whether & and * bind to the type as opposed to the variable.
-//  "PointerBindsToType": true,
+    // If true, a space may be inserted after C style casts.
+// "SpaceAfterCStyleCast": true,
 
     // If false, spaces will be removed before assignment operators.
 //  "SpaceBeforeAssignmentOperators": true,
