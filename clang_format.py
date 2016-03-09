@@ -175,12 +175,14 @@ def load_settings():
     global style
     global format_on_save
     global languages
-    settings = sublime.load_settings(settings_file)
+    settings_global = sublime.load_settings(settings_file)
+    settings_local = sublime.active_window().active_view().settings().get('ClangFormat', {})
+    load = lambda name, default: settings_local.get(name, settings_global.get(name, default))
     # Load settings, with defaults.
-    binary         = settings.get('binary', default_binary)
-    style          = settings.get('style',   styles[0]    )
-    format_on_save = settings.get('format_on_save', False  )
-    languages      = settings.get('languages', ['C', 'C++', 'C++11', 'JavaScript'])
+    binary         = load('binary', default_binary)
+    style          = load('style', styles[0])
+    format_on_save = load('format_on_save', False)
+    languages      = load('languages', ['C', 'C++', 'C++11', 'JavaScript'])
 
 def is_supported(lang):
     load_settings()
