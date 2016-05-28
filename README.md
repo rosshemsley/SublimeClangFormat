@@ -55,9 +55,21 @@ Use
   http://clang.llvm.org/docs/ClangFormatStyleOptions.html.
 - Settings for the 'Custom' format and others are available through the Sublime
   Text preferences.
-- It is possible to enable the formatter on every
-  save to a C/C++ file. To change settings on a per-package basis, check out the
-  package "Project-Specific".
+- It is possible to run the formatter on every save to a file, change settings
+  to `"format_on_save": true`.
+- To change settings on a per-package basis, add them under `ClangFormat` key,
+  example project.sublime-settings:
+
+  ```json
+{
+  "folders": [],
+  "settings": {
+    "ClangFormat": {
+      "format_on_save": true
+    }
+  }
+}
+```
 
 
 If You Liked This
