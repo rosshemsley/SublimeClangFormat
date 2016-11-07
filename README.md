@@ -24,19 +24,10 @@ selecting styles using the Command Palette, and easier installation.
 
 Installing
 ----------
-- Install this package through Package Control in the usual way.
-- Get the clang-format binary for your platform. All binaries provided below are from
-  the LLVM 3.6 release. They are for **64-bit platforms only**:
-  - [Fedora 21](http://107.170.192.246:8001/llvm3.6/fedora21/clang-format)
-  - [FreeBSD 10](http://107.170.192.246:8001/llvm3.6/freebsd10/clang-format)
-  - [OS X](http://107.170.192.246:8001/llvm3.6/osx/clang-format)
-  - [openSUSE 13.2](http://107.170.192.246:8001/llvm3.6/opensuse13.2/clang-format)
-  - [Ubuntu 14.04](http://107.170.192.246:8001/llvm3.6/ubuntu14.04/clang-format)
-  - [Windows](http://107.170.192.246:8001/llvm3.6/windows/clang-format.exe)
-
-  If you prefer, you can download the [entire LLVM toolchain](http://llvm.org/releases/download.html)
-  and extract the `clang-format` binary yourself. Just extract the `.tar.xz`
+- Download the [entire LLVM toolchain](http://llvm.org/releases/)
+  and extract the `clang-format` binary. Just extract the `.tar.xz`
   file and copy `bin/clang-format` into your PATH (e.g. `/usr/local/bin`).
+- Install this package through Package Control in the usual way.
 - Set the path to the clang-format binaries. You can do this from within Sublime
   Text by choosing `Clang Format - Set Path` from the command palette.  Hint:
   the path should look something like this `[path/to/clang]/clang/bin/clang-format`.
