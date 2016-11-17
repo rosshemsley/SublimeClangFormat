@@ -230,6 +230,9 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         else:
             regions = self.view.sel()
 
+        if all(region.empty() for region in regions):
+            regions = [sublime.Region(0, self.view.size())]
+
         # Deal with all selected regions.
         for region in regions:
             region_offset = region.begin()
