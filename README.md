@@ -1,13 +1,12 @@
 Clang Format
 ============
 
-***Updates:***
-Preliminary support for JavaScript has been added! Update to latest version
-of clang-format provided with LLVM 3.6 to avoid known [bugs](https://github.com/rosshemsley/SublimeClangFormat/pull/4).
+[![Package Control](https://packagecontrol.herokuapp.com/downloads/Clang%20Format.svg?style=flat-square)](https://packagecontrol.io/packages/Clang%20Format)
+
 
 What it does
 ------------
-Clang-format is a tool for re-formatting C++, built on LLVM. This is a
+Clang-format is a tool for formatting C++, built on LLVM. This is a
 package that allows you to run it easily from within Sublime Text.
 
 ![demo](https://raw.githubusercontent.com/rosshemsley/demos/master/clang_format.gif)
@@ -16,8 +15,7 @@ About
 -----
 In this package, we provide an alternative wrapper around clang-format
 for use within Sublime Text 3. Whilst LLVM does provide a very simple plugin
-to work with Sublime Text already:
-https://llvm.org/svn/llvm-project/cfe/trunk/tools/clang-format/clang-format-sublime.py,
+to work with Sublime Text [here](https://llvm.org/svn/llvm-project/cfe/trunk/tools/clang-format/clang-format-sublime.py),
 it doesn't really exploit any of the Sublime Text package functionality.
 We add new features such as customising the style from a settings file,
 selecting styles using the Command Palette, and easier installation.
@@ -51,7 +49,7 @@ Use
 - To change settings on a per-package basis, add them under `ClangFormat` key,
   example project.sublime-settings:
 
-  ```json
+```json
 {
   "folders": [],
   "settings": {
@@ -78,7 +76,8 @@ Thanks to the LLVM project for doing the hard work, including writing clang
 format, and also the original Sublime Text plugin on which this package is
 based.
 
-Also thanks to [y0ssar1an](https://github.com/y0ssar1an) and [Bendtherules](https://github.com/bendtherules) for their improvements!
+Also thanks to [y0ssar1an](https://github.com/y0ssar1an), [Bendtherules](https://github.com/bendtherules)
+and other contributors for their improvements!
 
 Finally
 --------
