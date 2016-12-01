@@ -1,13 +1,16 @@
 import sublime, sublime_plugin
 import subprocess, os
 
+
 # The styles available by default. We add one option: "Custom". This tells
 # the plugin to look in an ST settings file to load the customised style.
 styles  = ["LLVM", "Google", "Chromium", "Mozilla", "WebKit", "Custom", "File"]
 
+
 # Settings file locations.
-settings_file         = 'clang_format.sublime-settings'
+settings_file = 'clang_format.sublime-settings'
 custom_style_settings = 'clang_format_custom.sublime-settings'
+
 
 # Hacky, but there doesn't seem to be a cleaner way to do this for now.
 # We need to be able to load all these settings from the settings file.
@@ -80,11 +83,14 @@ st_encodings_trans = {
    "Undefined" : None
 }
 
+
 # Check if we are running on a Windows operating system
 os_is_windows = os.name == 'nt'
 
+
 # The default name of the clang-format executable
 default_binary = 'clang-format.exe' if os_is_windows else 'clang-format'
+
 
 # This function taken from Stack Overflow response:
 # http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
@@ -129,6 +135,7 @@ def dic_to_yaml_simple(d):
             output += ', '
     return output
 
+
 # We store a set of customised values in a sublime settings file, so that it is
 # possible to very quickly customise the output.
 # This function returns the correct customised style tag.
@@ -143,11 +150,13 @@ def load_custom():
 
     return out
 
+
 # Display input panel to update the path.
 def update_path():
     load_settings()
     w = sublime.active_window()
     w.show_input_panel("Path to clang-format: ", binary, set_path, None, None)
+
 
 # Check that the binary can be found and is executable.
 def check_binary():
@@ -167,6 +176,7 @@ def check_binary():
             return False
     return True
 
+
 # Load settings and put their values into global scope.
 # Probably a nicer way of doing this, but it's simple enough and it works fine.
 def load_settings():
@@ -184,28 +194,23 @@ def load_settings():
     format_on_save = load('format_on_save', False)
     languages      = load('languages', ['C', 'C++', 'C++11', 'JavaScript'])
 
+
 def is_supported(lang):
     load_settings()
     return any((lang.endswith((l + '.tmLanguage', l + '.sublime-syntax')) for l in languages))
 
+
 # Triggered when the user runs clang format.
 class ClangFormatCommand(sublime_plugin.TextCommand):
     def run(self, edit, whole_buffer=False):
-
-        # Update the settings.
         load_settings()
 
-        # Check that the binary exists.
         if not check_binary():
             return
 
-        # Status message.
         sublime.status_message("Clang format (style: "+ style + ")." )
 
-        #----------------------------------------------------------------------#
         # The below code has been taken and tweaked from llvm.
-        #----------------------------------------------------------------------#
-
         encoding = st_encodings_trans[self.view.encoding()]
         if encoding is None:
             encoding = 'utf-8'
@@ -216,7 +221,6 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         if style == "File":
             _style = "file"
 
-        # This is the command we will run, we build it incrementally.
         command = []
 
         if style == "Custom":
@@ -230,7 +234,6 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         else:
             regions = self.view.sel()
 
-        # Deal with all selected regions.
         for region in regions:
             region_offset = region.begin()
             region_length = region.size()
@@ -244,7 +247,6 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
                 region_offset = region.begin()
                 region_lenth  = region.size()
 
-            # Add this region to the set of offsets.
             command.extend(['-offset', str(region_offset),
                             '-length', str(region_length)])
 
@@ -286,10 +288,6 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
 
         # TODO: better semantics for re-positioning cursors!
 
-        # TODO: decide if this is really needed. It seems not?
-        # FIXME: Without the 10ms delay, the viewport sometimes jumps.
-        # sublime.set_timeout(lambda: self.view.set_viewport_position(
-            # old_viewport_position, False), 10)
 
 # Hook for on-save event, to allow application of clang-format on save.
 class clangFormatEventListener(sublime_plugin.EventListener):
@@ -303,10 +301,12 @@ class clangFormatEventListener(sublime_plugin.EventListener):
                 print("Auto-applying Clang Format on save.")
                 view.run_command("clang_format", {"whole_buffer": True})
 
+
 # Called from the UI to update the path in the settings.
 class clangFormatSetPathCommand(sublime_plugin.WindowCommand):
     def run(self):
         update_path()
+
 
 # Called from the UI to set the current style.
 class clangFormatSelectStyleCommand(sublime_plugin.WindowCommand):
