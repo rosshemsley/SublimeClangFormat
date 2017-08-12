@@ -41,7 +41,8 @@ all_settings  = [
     "SpaceAfterCStyleCast", "SpaceBeforeAssignmentOperators", "SpaceBeforeParens",
     "SpaceInEmptyParentheses", "SpacesBeforeTrailingComments", "SpacesInAngles",
     "SpacesInCStyleCastParentheses", "SpacesInContainerLiterals",
-    "SpacesInParentheses", "SpacesInSquareBrackets", "Standard", "TabWidth", "UseTab"
+    "SpacesInParentheses", "SpacesInSquareBrackets", "Standard", "SortIncludes",
+    "TabWidth", "UseTab"
 ]
 
 st_encodings_trans = {
