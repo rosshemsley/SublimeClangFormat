@@ -100,6 +100,7 @@
     //     DRTBS_TopLevel (in configuration: TopLevel) Always break after the return types
     //     of top level functions.
 //  "AlwaysBreakAfterDefinitionReturnType": "None",
+//  "AlwaysBreakAfterReturnType": "None",
 
     // If true, always break before multiline string literals.
     // This flag is mean to make cases where there are multiple multiline 
