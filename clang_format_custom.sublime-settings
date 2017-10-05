@@ -135,7 +135,25 @@
     // bool BeforeCatch Wrap before catch.
     // bool BeforeElse Wrap before else.
     // bool IndentBraces Indent the wrapped braces themselves.
-// "BraceWrapping": "IndentBraces",
+    // bool SplitEmptyFunction If false, empty function body can be put on a single line.
+    // bool SplitEmptyRecord If false, empty record (e.g. class, struct or union) body can be put on a single line.
+    // bool SplitEmptyNamespace If false, empty namespace body can be put on a single line.
+    "BraceWrapping":{
+//        "AfterClass":             false,
+//        "AfterControlStatement":  false,
+//        "AfterEnum":              false,
+//        "AfterFunction":          false,
+//        "AfterNamespace":         false,
+//        "AfterObjCDeclaration":   false,
+//        "AfterStruct":            false,
+//        "AfterUnion":             false,
+//        "BeforeCatch":            false,
+//        "BeforeElse":             false,
+//        "IndentBraces":           false,
+//        "SplitEmptyFunction:"     true,
+//        "SplitEmptyRecord":       true,
+//        "SplitEmptyNamespace":    true
+    },
 
     // Break after each annotation on a field in Java files.
 // "BreakAfterJavaFieldAnnotations": true,
