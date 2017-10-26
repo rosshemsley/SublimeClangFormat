@@ -129,6 +129,21 @@ def dic_to_yaml_simple(d):
         output += ": "
         if type(d[k]) is bool:
             output += str(d[k]).lower()
+        elif type(d[k]) is dict:
+            output += "{"
+            n2 = len(d[k])
+            for k2 in d[k] :
+                output += str(k2)
+                output += ": "
+                if type(d[k][k2]) is bool:
+                    output += str(d[k][k2]).lower()
+                else:
+                    output += str(d[k][k2])
+                n2 -= 1
+                if (n2!=0):
+                    output += ', '
+                    
+            output += "}"
         else:
             output += str(d[k])
         n -= 1
