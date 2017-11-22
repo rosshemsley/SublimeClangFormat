@@ -285,9 +285,18 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
             return
 
         # If there were no errors, we replace the view with the outputted buf.
+        # Temporarily disable tabs to space so that tabs elsewhere in the file
+        # do not get modified if they were not part of the formatted selection
+        prev_tabs_to_spaces = self.view.settings().get('translate_tabs_to_spaces')
+        self.view.settings().set('translate_tabs_to_spaces', False)
+
         self.view.replace(
             edit, sublime.Region(0, self.view.size()),
             output.decode(encoding))
+
+        # Re-enable previous tabs to space setting
+        self.view.settings().set('translate_tabs_to_spaces', prev_tabs_to_spaces)
+
 
         # TODO: better semantics for re-positioning cursors!
 
