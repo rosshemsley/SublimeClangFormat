@@ -344,7 +344,7 @@
     //     PAS_Left   (in configuration: Left) Align pointer to the left.
     //     PAS_Right  (in configuration: Right) Align pointer to the right.
     //     PAS_Middle (in configuration: Middle) Align pointer in the middle.
-//  "PointerAlignment": "PAS_Left",
+//  "PointerAlignment": "Left",
 
     // If true, a space may be inserted after C style casts.
 // "SpaceAfterCStyleCast": true,
