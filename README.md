@@ -22,9 +22,11 @@ selecting styles using the Command Palette, and easier installation.
 
 Installing
 ----------
-- Download the [entire LLVM toolchain](http://llvm.org/releases/)
-  and extract the `clang-format` binary. Just extract the `.tar.xz`
-  file and copy `bin/clang-format` into your PATH (e.g. `/usr/local/bin`).
+- Install `clang-format` in one of the following ways:
+  - Install using your package manager, e.g. `sudo apt-get install clang-format` or `sudo apt-get install clang-format-5.0`.
+  - Download the [entire LLVM toolchain](http://llvm.org/releases/)
+    and extract the `clang-format` binary. Just extract the `.tar.xz`
+    file and copy `bin/clang-format` into your PATH (e.g. `/usr/local/bin`).
 - Install this package through Package Control in the usual way.
 - Set the path to the clang-format binaries. You can do this from within Sublime
   Text by choosing `Clang Format - Set Path` from the command palette.  Hint:
