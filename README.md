@@ -33,7 +33,7 @@ Installing
 
 Use
 ---
-- Default shortcut is `super+option+a` on OSX and `ctrl+option+a` otherwise.
+- Default shortcut is `super+option+a` on OSX and `option+cmd+a` otherwise.
   This will apply clang-format to the selection.
 - From the command palette, you can select the formatting type by using
   `Clang Format: Select Style`. You will find the small number of defaults,
