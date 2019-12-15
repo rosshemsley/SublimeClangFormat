@@ -51,14 +51,14 @@
     // int         aaaa = 12;
     // float       b = 23;
     // std::string ccc = 23;
-// "AlignConsecutiveDeclarations": true,
+//  "AlignConsecutiveDeclarations": true,
 
     // If true, aligns escaped newlines as far left as possible. Otherwise puts
     // them into the right-most column.
 //  "AlignEscapedNewlinesLeft": true,
 
     // If true, horizontally align operands of binary and ternary expressions.
-// "AlignOperands": true,   
+//  "AlignOperands": true,   
 
     // If true, aligns trailing comments.
 //  "AlignTrailingComments": true,
@@ -139,24 +139,24 @@
     // bool SplitEmptyRecord If false, empty record (e.g. class, struct or union) body can be put on a single line.
     // bool SplitEmptyNamespace If false, empty namespace body can be put on a single line.
     "BraceWrapping":{
-//        "AfterClass":             false,
-//        "AfterControlStatement":  false,
-//        "AfterEnum":              false,
-//        "AfterFunction":          false,
-//        "AfterNamespace":         false,
-//        "AfterObjCDeclaration":   false,
-//        "AfterStruct":            false,
-//        "AfterUnion":             false,
-//        "BeforeCatch":            false,
-//        "BeforeElse":             false,
-//        "IndentBraces":           false,
+//  "AfterClass":             false,
+//  "AfterControlStatement":  false,
+//  "AfterEnum":              false,
+//  "AfterFunction":          false,
+//  "AfterNamespace":         false,
+//  "AfterObjCDeclaration":   false,
+//  "AfterStruct":            false,
+//  "AfterUnion":             false,
+//  "BeforeCatch":            false,
+//  "BeforeElse":             false,
+//  "IndentBraces":           false,
 //        "SplitEmptyFunction:"     true,
-//        "SplitEmptyRecord":       true,
-//        "SplitEmptyNamespace":    true
+//  "SplitEmptyRecord":       true,
+//  "SplitEmptyNamespace":    true
     },
 
     // Break after each annotation on a field in Java files.
-// "BreakAfterJavaFieldAnnotations": true,
+//  "BreakAfterJavaFieldAnnotations": true,
 
     // The way to wrap binary operators.
     // Possible values:
@@ -198,7 +198,7 @@
 
     // A regular expression that describes comments with special meaning, which
     // should not be split into lines or otherwise changed.
-    // "CommentPragmas": "",
+//  "CommentPragmas": "",
 
     // If the constructor initializers don’t fit on a line, put each initializer
     // on its own line.
@@ -244,7 +244,14 @@
     // In the .clang-format configuration file, this can be configured like:
     // ForEachMacros: ['RANGES_FOR', 'FOREACH']
     // For example: BOOST_FOREACH.
-// "ForEachMacros": "['RANGES_FOR', 'FOREACH']" 
+//  "ForEachMacros": "['RANGES_FOR', 'FOREACH']",
+
+    // Dependent on the value, multiple #include blocks can be sorted as one and divided based on category.
+    // Possible values:
+    //     IBS_Preserve (in configuration: Preserve) Sort each #include block separately.
+    //     IBS_Merge (in configuration: Merge) Merge multiple #include blocks together and sort as one.
+    //     IBS_Regroup (in configuration: Regroup) Merge multiple #include blocks together and sort as one. Then split into groups based on category priority. See IncludeCategories.
+//  "IncludeBlocks": "Preserve",
     
     // Regular expressions denoting the different #include categories used for 
     // ordering #includes.
@@ -265,16 +272,23 @@
     //     Priority:        3
     //   - Regex:           '.\*'
     //     Priority:        1
-// "IncludeCategories": "UINT_MAX"
+//  "IncludeCategories": "UINT_MAX",
+
+    // Specify a regular expression of suffixes that are allowed in the file-to-main-include mapping.
+    // When guessing whether a #include is the “main” include (to assign category 0, see above), use this regex of allowed suffixes to the header stem. A partial match is done, so that: - “” means “arbitrary suffix” - “$” means “no suffix”
+    // For example, if configured to “(_test)?$”, then a header a.h would be seen as the “main” include in both a.cc and a_test.cc.
+//  "IncludeIsMainRegex": "",
 
     // Indent case labels one level from the switch statement. When false, use
     // the same indentation level as for the switch statement. Switch statement
     // body is always indented one level more than case labels.
 //  "IndentCaseLabels": true,
 
-    // If true, indent when breaking function declarations which are not also
-    // definitions after the type.
-//  "IndentFunctionDeclarationAfterType": true,
+    // The preprocessor directive indenting style to use.
+    // Possible values:
+    //     PPDIS_None (in configuration: None) Does not indent any directives.
+    //     PPDIS_AfterHash (in configuration: AfterHash) Indents directives after the hash.
+//  "IndentPPDirectives": "None",
 
     // The number of columns to use for indentation.
 //  "IndentWidth": 2,
@@ -282,8 +296,18 @@
     // Indent if a function definition or declaration is wrapped after the type.
 //  "IndentWrappedFunctionNames": true,
 
+    // The JavaScriptQuoteStyle to use for JavaScript strings.
+    // Possible values:
+    //     JSQS_Leave (in configuration: Leave) Leave string quotes as they are.
+    //     JSQS_Single (in configuration: Single) Always use single quotes.
+    //     JSQS_Double (in configuration: Double) Always use double quotes.
+// "JavaScriptQuotes": "Leave",
+
+    // Whether to wrap JavaScript import/export statements.
+//  "JavaScriptWrapImports": true,
+
     // If true, empty lines at the start of blocks are kept.
-// "KeepEmptyLinesAtTheStartOfBlocks": true,
+//  "KeepEmptyLinesAtTheStartOfBlocks": true,
 
     // Language, this format style is targeted at. Possible "values": LK_None
     // (in "configuration": None) Do not use. LK_Cpp (in "configuration": Cpp)
@@ -294,10 +318,10 @@
 //  "Language": "Cpp",
 
     // A regular expression matching macros that start a block.
-//  MacroBlockBegin: "*_MACRO_START"
+//  "MacroBlockBegin": "*_MACRO_START"
 
     // A regular expression matching macros that end a block.
-//  MacroBlockEnd: "*_MACRO_END",
+//  "MacroBlockEnd": "*_MACRO_END",
 
     // The maximum number of consecutive empty lines to keep.
 //  "MaxEmptyLinesToKeep": 2,
@@ -346,8 +370,27 @@
     //     PAS_Middle (in configuration: Middle) Align pointer in the middle.
 //  "PointerAlignment": "Left",
 
+
+    // If true, clang-format will attempt to re-flow comments.
+//  "ReflowComments": true,
+
+    // If true, clang-format will sort #includes.
+//  "SortIncludes": true,
+
+    // If true, clang-format will sort using declarations.
+    // The order of using declarations is defined as follows: 
+    //     Split the strings by ”::” and discard any initial empty strings. 
+    //     The last element of each list is a non-namespace name; all others are namespace names. 
+    //     Sort the lists of names lexicographically, 
+    //     where the sort order of individual names is that all non-namespace names come before all namespace names, 
+    //     and within those groups, names are in case-insensitive lexicographic order.
+//  "SortUsingDeclarations": true,
+
     // If true, a space may be inserted after C style casts.
-// "SpaceAfterCStyleCast": true,
+//  "SpaceAfterCStyleCast": true,
+
+    // If true, a space will be inserted after the ‘template’ keyword.
+//  "SpaceAfterTemplateKeyword": true,
 
     // If false, spaces will be removed before assignment operators.
 //  "SpaceBeforeAssignmentOperators": true,
