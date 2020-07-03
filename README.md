@@ -52,7 +52,7 @@ Use
   example project.sublime-settings:
 - To run the formatter in one stroke, press `ctrl+e` for windows and linux
   or `super+e` for OSX. You can always change the keybinding in the
-  keymap to your likings.
+  keymap to your liking.
 
 ```json
 {
