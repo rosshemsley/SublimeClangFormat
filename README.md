@@ -50,6 +50,9 @@ Use
   to `"format_on_save": true`.
 - To change settings on a per-package basis, add them under `ClangFormat` key,
   example project.sublime-settings:
+- To run the formatter in one stroke, press `ctrl+e` for windows and linux
+  or `super+e` for OSX. You can always change the keybinding in the
+  keymap to your likings.
 
 ```json
 {
