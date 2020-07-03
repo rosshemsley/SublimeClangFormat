@@ -19,5 +19,10 @@
         [
             {"key": "selector", "operator": "equal", "operand": "source.js"}
         ]
+    },
+
+    // To run the clang formatter on the whole file in one shortcut.
+    { "keys": ["ctrl+e"], "command": "clang_format",
+        "args": {"whole_buffer": "True"}
     }
 ]

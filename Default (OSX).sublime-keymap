@@ -19,5 +19,11 @@
         [
             {"key": "selector", "operator": "equal", "operand": "source.js"}
         ]
+    },
+
+    // To run the clang formatter on the whole file without changing the 
+    // chosen formatting style.
+    { "keys": ["super+e"], "command": "clang_format",
+        "args": {"whole_buffer": true}
     }
 ]
