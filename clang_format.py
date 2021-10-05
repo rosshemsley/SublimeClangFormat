@@ -290,9 +290,18 @@ class ClangFormatCommand(sublime_plugin.TextCommand):
         prev_tabs_to_spaces = self.view.settings().get('translate_tabs_to_spaces')
         self.view.settings().set('translate_tabs_to_spaces', False)
 
+        viewport_position_before = self.view.viewport_position()
+
         self.view.replace(
             edit, sublime.Region(0, self.view.size()),
             output.decode(encoding))
+
+        # Bugfix: Since Sublime Text 4, the view started jumping to the right
+        # passed the content after formatting. This additional line improves
+        # the situation. It might not be needed anymore if this is ever fixed
+        # properly.
+        self.view.set_viewport_position((0, 0), False)
+        self.view.set_viewport_position(viewport_position_before, False)
 
         # Re-enable previous tabs to space setting
         self.view.settings().set('translate_tabs_to_spaces', prev_tabs_to_spaces)
