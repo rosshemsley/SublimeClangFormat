@@ -1,5 +1,6 @@
 import sublime, sublime_plugin
 import subprocess, os
+import re
 
 
 # The styles available by default. We add one option: "Custom". This tells
@@ -188,6 +189,11 @@ def load_settings():
     global style
     global format_on_save
     global languages
+    global file_include_patterns
+    global folder_include_patterns
+    global file_exclude_patterns
+    global folder_exclude_patterns
+
     settings_global = sublime.load_settings(settings_file)
     settings_local = sublime.active_window().active_view().settings().get('ClangFormat', {})
     load = lambda name, default: settings_local.get(name, settings_global.get(name, default))
@@ -196,12 +202,107 @@ def load_settings():
     style          = load('style', styles[0])
     format_on_save = load('format_on_save', False)
     languages      = load('languages', ['C', 'C++', 'C++11', 'JavaScript'])
+    file_include_patterns = load('file_include_patterns', [])
+    folder_include_patterns = load('folder_include_patterns', [])
+    file_exclude_patterns = load('file_exclude_patterns', [])
+    folder_exclude_patterns = load('folder_exclude_patterns', [])
 
 
 def is_supported(lang):
     load_settings()
     return any((lang.endswith((l + '.tmLanguage', l + '.sublime-syntax')) for l in languages))
 
+
+def get_project_root(view: sublime.View):
+    window = view.window()
+    if not window or not window.is_valid():
+        return None
+    
+    project_file = window.project_file_name()
+    
+    if not project_file:
+        return None
+
+    return os.path.dirname(project_file)
+
+def match(pattern: str, value: str, project_root: str, is_folder: bool):
+    # Windows is case insensitive so convert all to lower case
+    if os_is_windows:
+        pattern = pattern.lower()
+        value = value.lower().replace('\\', '/') # normalize windows path to use forward slash '/'
+        project_root = project_root.lower().replace('\\', '/') if project_root is not None else None
+
+    if pattern.startswith('//'):
+        if project_root is None or not value.startswith(project_root):
+            return False
+        pattern = pattern[2:]
+        value = value[len(project_root) + 1:] # strip the starting slash as well
+
+    # Convert pattern into regex
+    if not is_folder:
+        # files always have a start and end
+        pattern = '^' + pattern
+        pattern = pattern + '$'
+
+    pattern = pattern.replace('.','\\.') # escape any dots
+    pattern = pattern.replace('?','[^/]') # replace '?' with "any single character except '/'"
+    pattern = pattern.replace('*/','\n\n\n') # set temp marker, we're assuming no one's going to put in 3x newlines in the pattern
+    pattern = pattern.replace('/*','\r\r\r') # set temp marker, we're assuming no one's going to put in 3x carriage returns in the pattern
+    pattern = pattern.replace('*','[^/]*') # singular asterisk have non-greedy lookups
+    pattern = pattern.replace('\n\n\n','.*/') # replace temp marker, convert '*/' into greedy lookups
+    pattern = pattern.replace('\r\r\r','/.*') # replace temp marker, convert '/*' into greedy lookups
+
+    return re.search(pattern, value) is not None
+
+def should_execute(view: sublime.View):
+    file = view.file_name()
+    if file is None:
+        return False
+
+    folder = os.path.dirname(file)
+    project_root = get_project_root(view)
+    folder_include_empty = len(folder_include_patterns) == 0
+    folder_exclude_empty = len(folder_exclude_patterns) == 0
+    file_include_empty = len(file_include_patterns) == 0
+    file_exclude_empty = len(file_exclude_patterns) == 0
+
+    folder_include = any(match(p, folder, project_root, True) for p in folder_include_patterns)
+    folder_exclude = any(match(p, folder, project_root, True) for p in folder_exclude_patterns)
+    file_include = any(match(p, file, project_root, False) for p in file_include_patterns)
+    file_exclude = any(match(p, file, project_root, False) for p in file_exclude_patterns)
+
+    '''
+    If all lists are not empty the following precedence is used:
+        `file_exclude > file_include > folder_exclude > folder_include`
+
+    If a list is empty, remove it from the precedence list, e.g. if file_include_list is empty:
+        `file_exclude > folder_exclude > folder_include`
+        In other words, a file will be formatted if it has no match in the file and folder exclude lists and 
+        has a match in the folder include list
+
+    If all lists empty the file will be formatted
+
+    '''
+    result = True
+    if not file_exclude_empty:
+        if file_exclude:
+            return False
+
+    if not file_include_empty:
+        if file_include:
+            return True
+        result = False
+
+    if not folder_exclude_empty:
+        if folder_exclude:
+            return False
+
+    if not folder_include_empty:
+        if folder_include:
+            return True
+        result = False
+
+    return result
 
 # Triggered when the user runs clang format.
 class ClangFormatCommand(sublime_plugin.TextCommand):
@@ -309,7 +410,7 @@ class clangFormatEventListener(sublime_plugin.EventListener):
         if is_supported(syntax):
             # Ensure that settings are up to date.
             load_settings()
-            if format_on_save:
+            if format_on_save and should_execute(view):
                 print("Auto-applying Clang Format on save.")
                 view.run_command("clang_format", {"whole_buffer": True})
 

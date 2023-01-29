@@ -1,6 +1,6 @@
 {
     // All these settings have been taken from the clang-format manual, 
-    // and can be customised form within Sublime Text settings files.
+    // and can be customised from within Sublime Text settings files.
     // Please note, the defaults set below are completely random values.
     // Take a look at http://clang.llvm.org/docs/ClangFormatStyleOptions.html
     // For examples.
