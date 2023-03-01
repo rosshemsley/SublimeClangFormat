@@ -17,6 +17,11 @@
 
     "style": "Google",
 
+    // If style is set to 'File', but not '.clang-format' file is found, this style
+    // is used instead. Use 'none' to skip formatting in this case.
+
+    "fallback_style": "Google",
+
     // Setting this to true will run the formatter on every save. If you want to
     // only enable this for a given project, try checking out the package
     // "Project-Specific".
