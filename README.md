@@ -48,6 +48,9 @@ Use
   Text preferences.
 - It is possible to run the formatter on every save to a file, change settings
   to `"format_on_save": true`.
+- To run the formatter in one stroke, press `ctrl+e` for windows and linux
+  or `super+e` for OSX. You can always change the keybinding in the
+  keymap to your liking.
 - To change settings on a per-package basis, add them under `ClangFormat` key,
   example project.sublime-settings:
 
